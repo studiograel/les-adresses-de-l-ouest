@@ -1,0 +1,20 @@
+---
+// Bouton d'action. Un seul à la fois à l'écran : « Parlez-nous de votre projet ».
+// Il ouvre le formulaire (Google Forms) dans un nouvel onglet. Pas d'iframe : le visiteur quitte
+// notre site, qui ne charge donc aucune ressource Google. Le visiteur est prévenu (texte caché pour les lecteurs d'écran).
+import { site } from '../data/site.js';
+
+interface Props {
+  href?: string;
+}
+
+const { href = site.formulaire } = Astro.props;
+---
+
+<a class="bouton" href={href} target="_blank" rel="noopener" referrerpolicy="no-referrer">
+  <span><slot>{site.boutonFormulaire}</slot><span class="sr-only"> (s'ouvre dans un nouvel onglet)</span></span>
+  <svg class="bouton__fleche" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path d="M7 17 17 7"></path>
+    <path d="M8 7h9v9"></path>
+  </svg>
+</a>

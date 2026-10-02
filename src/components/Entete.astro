@@ -1,0 +1,64 @@
+---
+// En-tête collant : logo + navigation. Sur mobile, la navigation est un menu déroulant (popover natif).
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+
+const liens = [
+  { href: '/#concept', texte: 'Le projet' },
+  { href: '/#pourquoi', texte: 'Pourquoi nous' },
+  { href: '/#offre', texte: "L'offre" },
+  { href: '/#processus', texte: 'Les étapes' },
+  { href: '/#chiffres', texte: 'Les chiffres' },
+  { href: '/#carte', texte: 'La carte' },
+  { href: '/#accompagnement', texte: 'Aller plus loin' },
+];
+---
+
+<header class="entete">
+  <div class="conteneur entete__barre">
+    <a class="entete__logo" href="/">
+      <Image
+        src={logo}
+        alt="Les Adresses de l'Ouest, retour à l'accueil. Logo : un rond crème au liseré orange, le nom en bleu marine et des silhouettes d'immeubles lyonnais en orange."
+        width={56}
+        height={56}
+        densities={[1, 2, 3]}
+        format="webp"
+        loading="eager"
+      />
+    </a>
+
+    <button class="menu-bouton" type="button" popovertarget="menu" aria-controls="menu">
+      <span>Menu</span>
+      <svg class="menu-icone" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" focusable="false">
+        <rect x="1" y="4" width="20" height="2" rx="1"></rect>
+        <rect x="1" y="10" width="20" height="2" rx="1"></rect>
+        <rect x="1" y="16" width="20" height="2" rx="1"></rect>
+      </svg>
+    </button>
+
+    <nav id="menu" class="nav" popover aria-label="Navigation principale">
+      <ul class="nav__liste">
+        {
+          liens.map((lien) => (
+            <li>
+              <a class="nav__lien" href={lien.href}>
+                {lien.texte}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script is:inline>
+  // Ferme le menu quand on choisit une rubrique (sinon il resterait ouvert devant la page).
+  var menu = document.getElementById('menu');
+  if (menu) {
+    menu.addEventListener('click', function (e) {
+      if (e.target.closest('a') && menu.matches(':popover-open')) menu.hidePopover();
+    });
+  }
+</script>

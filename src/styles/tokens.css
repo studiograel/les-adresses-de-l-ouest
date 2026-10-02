@@ -1,0 +1,162 @@
+/* =============================================================================
+   JETONS : couleurs, typographie, espacements, mouvement
+   Tout le site lit ces valeurs. Ne jamais écrire une couleur ou une taille « en dur » ailleurs.
+   ============================================================================= */
+
+:root {
+  color-scheme: light;
+
+  /* ---------------------------------------------------------------------------
+     COULEURS DE LA MARQUE : échantillonnées au pixel sur reference/logo-hd.png
+       bleu marine : 10 486 pixels identiques  -> #162996
+       crème       : 181 208 pixels, le plus fréquent -> #F8F4EC
+       orange      : trait dessiné à la main (de #D97B24 à #DD8D42), médiane de 14 742 pixels -> #DB8839
+     --------------------------------------------------------------------------- */
+  --marine: #162996; /* le bleu du logo : texte courant, titres, fonds bleus */
+  --orange: #db8839; /* l'orange du logo : filets, traits, aplats, GRANDS titres sur fond marine */
+  --creme: #f8f4ec; /* le crème du logo : fond du site */
+
+  /* ---------------------------------------------------------------------------
+     COULEURS DÉRIVÉES : même famille, choisies pour tenir les contrastes
+     --------------------------------------------------------------------------- */
+  --orange-texte: #94500f; /* ORANGE FONCÉ pour écrire en orange sur fond clair (l'orange du logo est trop clair) */
+  --encre: #0e1b5e; /* marine profond : petit texte sur aplat orange, fond du pied de page */
+  --papier: #efe7d8; /* crème plus foncé : sections en alternance */
+  --marine-doux: #3f4ea5; /* texte secondaire sur fond clair */
+  --creme-doux: #cbcbdb; /* texte secondaire sur fond marine */
+
+  /* ---------------------------------------------------------------------------
+     CONTRASTES CALCULÉS (formule WCAG 2.1, luminance relative)
+     Minimum visé : 4,5:1 pour le texte ; 3:1 pour les grands textes (24 px et plus) et les éléments d'interface.
+
+       marine        sur crème   10,68  OK  texte courant, titres
+       crème         sur marine  10,68  OK  texte sur fond bleu
+       marine        sur papier   9,54  OK  texte sur sections en alternance
+       orange        sur crème    2,52  NON texte et contours utiles interdits ; réservé aux filets décoratifs
+       orange        sur marine   4,24  OK  grands titres et éléments d'interface sur bleu ; PAS de petit texte
+       marine        sur orange   4,24  OK  grands titres seulement sur un aplat orange
+       encre         sur orange   5,68  OK  petit texte sur un aplat orange
+       orange        sur encre    5,68  OK  petit texte orange sur le pied de page
+       crème         sur encre   14,32  OK  texte du pied de page
+       orange-texte  sur crème    5,61  OK  texte orange sur fond clair (papier : 5,01 ; blanc cassé : 6,05)
+       marine-doux   sur crème    6,73  OK  texte secondaire (papier : 6,01)
+       creme-doux    sur marine   7,31  OK  texte secondaire sur fond bleu
+
+     Deux usages de l'orange :
+       1. --orange        : décor, traits, aplats, très grands titres sur fond marine.
+       2. --orange-texte  : tout texte orange sur fond clair.
+     --------------------------------------------------------------------------- */
+
+  /* ---------------------------------------------------------------------------
+     TYPOGRAPHIE
+     --police-titre et --police-texte sont fournies par Astro (astro.config.mjs).
+     Échelle (ratio environ 1,25 à 1,33), validée avec UI/UX Pro Max : 14 · 16 · 18 · 24 · 32 · 48+.
+     Interligne du texte courant 1,5 à 1,75 ; longueur de ligne 65 à 75 caractères.
+     --------------------------------------------------------------------------- */
+  --fs-1: 0.875rem; /* 14 px : petites capitales (menu, étiquettes) */
+  --fs-2: 1rem; /* 16 px : texte secondaire */
+  --fs-3: 1.0625rem; /* 17 px : texte courant sur mobile */
+  --fs-4: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem); /* 20 à 24 px : chapô, textes d'appel */
+  --fs-5: clamp(1.5rem, 1.2rem + 1.2vw, 2rem); /* 24 à 32 px : titres de niveau 3 */
+  --fs-6: clamp(2rem, 1.4rem + 2.4vw, 3.25rem); /* 32 à 52 px : titres de niveau 2 */
+  --fs-7: clamp(2.5rem, 1.2rem + 5.4vw, 5.5rem); /* 40 à 88 px : titre de niveau 1 */
+  --fs-8: clamp(3rem, 1.6rem + 6vw, 6rem); /* 48 à 96 px : grands chiffres (plafond du plancher de qualité) */
+
+  --lh-corps: 1.65;
+  --lh-titre: 1;
+  --lh-serre: 1.12;
+  --mesure: 68ch;
+
+  /* ---------------------------------------------------------------------------
+     ESPACEMENTS : paliers de 4 px (suite 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128), validés avec UI/UX Pro Max
+     --------------------------------------------------------------------------- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4rem;
+  --sp-9: 6rem;
+  --sp-10: 8rem;
+  --section-y: clamp(var(--sp-8), 3rem + 5vw, 7rem);
+
+  --largeur: 85rem; /* 1360 px : le contenu occupe l'écran, les marges restent étroites */
+  --gouttiere: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  --hauteur-entete: 4.5rem;
+
+  /* Formes : des angles vifs, comme une page imprimée (pas de coins arrondis, pas d'ombres) */
+  --rayon: 2px;
+  --filet-fin: 1px;
+  --filet-epais: 3px;
+  --zone-tactile: 2.75rem; /* 44 px */
+
+  /* Mouvement : une seule courbe de sortie, trois durées */
+  --ease-sortie: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-rapide: 150ms;
+  --t-moyen: 300ms;
+  --t-lent: 600ms;
+}
+
+/* ---------------------------------------------------------------------------
+   THÈMES : chaque section choisit son fond ; texte, filets et anneau de focus suivent.
+   --------------------------------------------------------------------------- */
+.theme-creme {
+  --fond: var(--creme);
+  --texte: var(--marine);
+  --doux: var(--marine-doux);
+  --accent: var(--orange);
+  --accent-texte: var(--orange-texte);
+  --filet: rgb(22 41 150 / 0.3);
+  --anneau: var(--marine);
+}
+
+.theme-papier {
+  --fond: var(--papier);
+  --texte: var(--marine);
+  --doux: var(--marine-doux);
+  --accent: var(--orange);
+  --accent-texte: var(--orange-texte);
+  --filet: rgb(22 41 150 / 0.32);
+  --anneau: var(--marine);
+}
+
+.theme-marine {
+  --fond: var(--marine);
+  --texte: var(--creme);
+  --doux: var(--creme-doux);
+  --accent: var(--orange); /* seulement pour de grands éléments (contraste 4,24:1) */
+  --accent-texte: var(--orange);
+  --filet: rgb(248 244 236 / 0.32);
+  --anneau: var(--creme);
+}
+
+.theme-orange {
+  --fond: var(--orange);
+  --texte: var(--encre);
+  --doux: var(--encre);
+  --accent: var(--encre);
+  --accent-texte: var(--encre);
+  --filet: rgb(14 27 94 / 0.45);
+  --anneau: var(--encre);
+}
+
+.theme-encre {
+  --fond: var(--encre);
+  --texte: var(--creme);
+  --doux: var(--creme-doux);
+  --accent: var(--orange);
+  --accent-texte: var(--orange); /* petit texte orange permis sur l'encre : 5,68:1 */
+  --filet: rgb(248 244 236 / 0.28);
+  --anneau: var(--creme);
+}
+
+.theme-creme,
+.theme-papier,
+.theme-marine,
+.theme-orange,
+.theme-encre {
+  background: var(--fond);
+  color: var(--texte);
+}

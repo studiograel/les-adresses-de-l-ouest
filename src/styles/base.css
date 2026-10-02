@@ -1,0 +1,191 @@
+/* =============================================================================
+   BASE : remise à zéro légère, texte, liens, focus, éléments que le navigateur dessine lui-même
+   ============================================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--hauteur-entete) + var(--sp-4));
+  /* Barre de défilement aux couleurs du site */
+  scrollbar-color: var(--marine) var(--creme);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--creme);
+  color: var(--marine);
+  font-family: var(--police-texte);
+  font-size: var(--fs-3);
+  line-height: var(--lh-corps);
+  font-variant-numeric: lining-nums;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
+  caret-color: var(--marine);
+}
+
+@media (min-width: 48rem) {
+  body {
+    font-size: 1.125rem; /* 18 px à partir de la tablette */
+  }
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--police-titre);
+  font-weight: 700;
+  line-height: var(--lh-titre);
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0 0 var(--sp-4);
+  max-width: var(--mesure);
+  text-wrap: pretty;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.22em;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+strong,
+b {
+  font-weight: 700;
+}
+
+/* Sélection de texte aux couleurs du site */
+::selection {
+  background: var(--marine);
+  color: var(--creme);
+}
+
+.theme-marine ::selection,
+.theme-encre ::selection {
+  background: var(--creme);
+  color: var(--marine);
+}
+
+.theme-orange ::selection {
+  background: var(--encre);
+  color: var(--creme);
+}
+
+/* Focus clavier toujours visible : un anneau épais qui change de couleur avec le fond */
+:focus-visible {
+  outline: 3px solid var(--anneau, var(--marine));
+  outline-offset: 3px;
+  border-radius: var(--rayon);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Texte lu uniquement par les lecteurs d'écran */
+.sr-only {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Lien d'évitement : visible seulement au clavier */
+.lien-evitement {
+  position: fixed;
+  inset-block-start: var(--sp-2);
+  inset-inline-start: var(--sp-2);
+  z-index: 100;
+  padding: var(--sp-3) var(--sp-5);
+  background: var(--creme);
+  color: var(--marine);
+  font-family: var(--police-titre);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  border: 2px solid var(--marine);
+  transform: translateY(-200%);
+}
+
+.lien-evitement:focus-visible {
+  transform: none;
+}
+
+/* Conteneur : le contenu occupe la largeur de l'écran jusqu'à 1360 px */
+.conteneur {
+  inline-size: min(100% - 2 * var(--gouttiere), var(--largeur));
+  margin-inline: auto;
+}
+
+/* Marqueur visible des informations manquantes : à remplacer avant la mise en ligne */
+.a-confirmer {
+  display: inline;
+  padding: 0.1em 0.4em;
+  background: var(--orange);
+  color: var(--encre);
+  font-family: var(--police-titre);
+  font-size: 0.95em;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* MOUVEMENT : règle de tout le site.
+   Les transitions et animations ne sont écrites que dans des blocs
+   « @media (prefers-reduced-motion: no-preference) ». Pour les personnes qui demandent moins de mouvement,
+   rien ne glisse ni ne se dessine, mais chaque état (survol, focus, menu ouvert, trait déjà tracé) reste bien visible. */

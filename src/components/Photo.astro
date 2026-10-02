@@ -1,0 +1,57 @@
+---
+// Affiche UNE photo déjà validée par src/utils/photos.js (droits confirmés, texte alternatif présent).
+// Passe par astro:assets : WebP, largeur et hauteur renseignées, chargement différé hors du premier écran.
+// Une vidéo n'est jamais intégrée (ni Instagram, ni YouTube : cookies et suivi) :
+// on montre une image d'aperçu avec un lien vers la publication.
+import { Image } from 'astro:assets';
+
+interface Props {
+  photo: {
+    image: ImageMetadata;
+    alt: string;
+    legende?: string;
+    credit?: string;
+    lienPublication?: string;
+  };
+  /** true pour la photo du premier écran (chargement immédiat) */
+  priorite?: boolean;
+  sizes?: string;
+  class?: string;
+}
+
+const { photo, priorite = false, sizes = '(min-width: 62rem) 45vw, 100vw', class: classe } = Astro.props;
+const legende = [photo.legende, photo.credit].filter(Boolean).join(' · ');
+---
+
+<figure class:list={['photo', classe]}>
+  {
+    photo.lienPublication ? (
+      <a class="photo__lien" href={photo.lienPublication} target="_blank" rel="noopener" referrerpolicy="no-referrer">
+        <Image
+          src={photo.image}
+          alt={photo.alt}
+          widths={[480, 800, 1200]}
+          sizes={sizes}
+          format="webp"
+          loading={priorite ? 'eager' : 'lazy'}
+          fetchpriority={priorite ? 'high' : 'auto'}
+        />
+        <span class="photo__lecture" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false"><path d="M9 6.5v11l9-5.5Z" /></svg>
+        </span>
+        <span class="sr-only">Voir la vidéo sur la publication (s'ouvre dans un nouvel onglet)</span>
+      </a>
+    ) : (
+      <Image
+        src={photo.image}
+        alt={photo.alt}
+        widths={[480, 800, 1200]}
+        sizes={sizes}
+        format="webp"
+        loading={priorite ? 'eager' : 'lazy'}
+        fetchpriority={priorite ? 'high' : 'auto'}
+      />
+    )
+  }
+  {legende && <figcaption>{legende}</figcaption>}
+</figure>

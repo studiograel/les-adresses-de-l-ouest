@@ -1,0 +1,71 @@
+---
+// Gabarit commun à toutes les pages : balises de référencement, polices, icônes, en-tête et pied de page.
+// Aucun script de mesure, aucun cookie, aucune ressource chargée chez un tiers.
+import { Font } from 'astro:assets';
+import { site } from '../data/site.js';
+import Entete from '../components/Entete.astro';
+import Pied from '../components/Pied.astro';
+import { typographieFrancaise } from '../utils/format.js';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/composants.css';
+import '../styles/sections.css';
+
+interface Props {
+  titre: string;
+  description: string;
+  /** chemin de la page, ex. '/' ou '/mentions-legales/' */
+  chemin?: string;
+  /** données structurées (JSON-LD), page d'accueil seulement */
+  donneesStructurees?: Record<string, unknown>;
+}
+
+const { titre, description, chemin = '/', donneesStructurees } = Astro.props;
+const canonique = new URL(chemin, Astro.site).href;
+const imagePartage = new URL('/og-image.png', Astro.site).href;
+const descriptionImage = `${site.nom} : ${site.signature}`;
+
+// Typographie française appliquée à tout le texte de la page (espaces insécables), voir src/utils/format.js
+const contenu = typographieFrancaise(await Astro.slots.render('default'));
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titre}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonique} />
+    <meta name="theme-color" content="#162996" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content={site.nom} />
+    <meta property="og:title" content={titre} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonique} />
+    <meta property="og:image" content={imagePartage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={descriptionImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <Font cssVariable="--police-titre" preload />
+    <Font cssVariable="--police-texte" preload={[{ style: 'normal' }]} />
+
+    {donneesStructurees && <script type="application/ld+json" set:html={JSON.stringify(donneesStructurees)} />}
+  </head>
+  <body>
+    <a class="lien-evitement" href="#contenu">Aller au contenu</a>
+    <div class="progression" aria-hidden="true"></div>
+    <Entete />
+    <main id="contenu" set:html={contenu} />
+    <Pied />
+  </body>
+</html>

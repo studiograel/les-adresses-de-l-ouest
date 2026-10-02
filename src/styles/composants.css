@@ -1,0 +1,386 @@
+/* =============================================================================
+   COMPOSANTS : barre de progression, en-tête, menu, bouton, icônes, trame, éclat
+   Effets inspirés de Magic UI (bibliothèque de RÉFÉRENCE : rien n'est installé, tout est refait en CSS) :
+     - bouton : « interactive hover button » (un point qui grossit jusqu'à remplir le bouton)
+     - éclat  : « glare hover » (un reflet en biais qui traverse le bloc)
+     - trame  : « dot pattern » (grille de points, ici une trame d'imprimerie)
+     - barre  : « scroll progress » (jauge de lecture, couleurs de la marque, sans dégradé)
+   ============================================================================= */
+
+/* ----- Barre de progression de lecture (CSS pur, là où le navigateur sait la faire) ----- */
+.progression {
+  display: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .progression {
+      display: block;
+      position: fixed;
+      inset-block-start: 0;
+      inset-inline: 0;
+      z-index: 60;
+      block-size: 4px;
+      background: var(--orange);
+      transform: scaleX(0);
+      transform-origin: left;
+      pointer-events: none;
+      animation: progresser linear both;
+      animation-timeline: scroll(root block);
+    }
+
+    @keyframes progresser {
+      to {
+        transform: scaleX(1);
+      }
+    }
+  }
+}
+
+/* ----- Icônes dessinées en ligne : un seul trait, une seule épaisseur ----- */
+.icone {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ----- En-tête collant : le logo ressort sur le fond bleu ----- */
+.entete {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 50;
+  block-size: var(--hauteur-entete);
+  background: var(--marine);
+  color: var(--creme);
+  --anneau: var(--creme);
+  border-block-end: 1px solid rgb(248 244 236 / 0.2);
+}
+
+.entete__barre {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  block-size: 100%;
+}
+
+.entete__logo {
+  display: block;
+  flex: none;
+  inline-size: 3.5rem;
+  block-size: 3.5rem;
+  border-radius: 50%;
+}
+
+.entete__logo img {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+/* ----- Navigation : menu déroulant sur mobile (popover natif : Échap ferme, clavier OK) ----- */
+.nav[popover] {
+  position: fixed;
+  inset: var(--hauteur-entete) 0 auto 0;
+  inline-size: 100%;
+  max-inline-size: none;
+  max-block-size: calc(100dvh - var(--hauteur-entete));
+  margin: 0;
+  padding: var(--sp-2) var(--gouttiere) var(--sp-6);
+  overflow: auto;
+  background: var(--encre);
+  color: var(--creme);
+  border: 0;
+  border-block-end: 3px solid var(--orange);
+  --anneau: var(--creme);
+}
+
+.nav__liste {
+  display: grid;
+  inline-size: min(100%, var(--largeur));
+  margin-inline: auto;
+}
+
+.nav__lien {
+  display: flex;
+  align-items: center;
+  min-block-size: 3.5rem;
+  font: 700 var(--fs-5) / 1 var(--police-titre);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--creme);
+  border-block-end: 1px solid rgb(248 244 236 / 0.22);
+}
+
+.nav__lien:hover,
+.nav__lien:focus-visible {
+  color: var(--orange);
+}
+
+.menu-bouton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-block-size: var(--zone-tactile);
+  padding: 0 var(--sp-4);
+  background: transparent;
+  border: 2px solid var(--creme);
+  border-radius: var(--rayon);
+  cursor: pointer;
+  font: 700 var(--fs-1) / 1 var(--police-titre);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--creme);
+}
+
+.menu-bouton:hover {
+  background: var(--creme);
+  color: var(--marine);
+}
+
+.menu-icone rect {
+  fill: currentColor;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Croix quand le menu est ouvert */
+.entete:has(.nav:popover-open) .menu-icone rect:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.entete:has(.nav:popover-open) .menu-icone rect:nth-child(2) {
+  transform: scaleX(0);
+}
+
+.entete:has(.nav:popover-open) .menu-icone rect:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .menu-icone rect {
+    transition:
+      transform var(--t-moyen) var(--ease-sortie);
+  }
+
+  .menu-bouton {
+    transition:
+      background-color var(--t-rapide) ease,
+      color var(--t-rapide) ease;
+  }
+
+  /* Le menu descend et apparaît en douceur */
+  .nav[popover] {
+    opacity: 0;
+    transform: translateY(-0.75rem);
+    transition:
+      opacity var(--t-moyen) var(--ease-sortie),
+      transform var(--t-moyen) var(--ease-sortie),
+      overlay var(--t-moyen) allow-discrete,
+      display var(--t-moyen) allow-discrete;
+  }
+
+  .nav[popover]:popover-open {
+    opacity: 1;
+    transform: none;
+  }
+
+  @starting-style {
+    .nav[popover]:popover-open {
+      opacity: 0;
+      transform: translateY(-0.75rem);
+    }
+  }
+}
+
+/* Écran large : le menu devient une simple ligne de liens dans l'en-tête */
+@media (min-width: 62rem) {
+  .menu-bouton {
+    display: none;
+  }
+
+  .nav[popover],
+  .nav[popover]:not(:popover-open) {
+    display: block;
+    position: static;
+    inset: auto;
+    inline-size: auto;
+    max-block-size: none;
+    padding: 0;
+    overflow: visible;
+    background: none;
+    border: 0;
+    opacity: 1;
+    transform: none;
+  }
+
+  .nav__liste {
+    display: flex;
+    inline-size: auto;
+    gap: var(--sp-1) var(--sp-5);
+  }
+
+  .nav__lien {
+    min-block-size: var(--zone-tactile);
+    font-size: var(--fs-1);
+    letter-spacing: 0.09em;
+    border: 0;
+    background: linear-gradient(var(--orange), var(--orange)) no-repeat 0 78% / 0 3px;
+  }
+
+  .nav__lien:hover,
+  .nav__lien:focus-visible {
+    color: var(--creme);
+    background-size: 100% 3px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .nav__lien {
+      transition: background-size var(--t-moyen) var(--ease-sortie);
+    }
+  }
+}
+
+/* ----- Bouton d'action unique : « Parlez-nous de votre projet » ----- */
+/* Au repos : un petit point. Au survol ou au clavier : le point grossit et remplit tout le bouton. */
+.bouton {
+  --bouton-fond: var(--marine);
+  --bouton-texte: var(--creme);
+  --bouton-point: var(--orange);
+  --bouton-texte-survol: var(--encre);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-block-size: 3.5rem;
+  padding: 0.9rem 1.5rem 0.9rem 2.6rem;
+  background: var(--bouton-fond);
+  color: var(--bouton-texte);
+  border: 2px solid var(--bouton-fond);
+  border-radius: var(--rayon);
+  font: 700 1.25rem / 1.05 var(--police-titre);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.bouton::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 1.1rem;
+  inset-block-start: 50%;
+  inline-size: 0.5rem;
+  block-size: 0.5rem;
+  margin-block-start: -0.25rem;
+  border-radius: 50%;
+  background: var(--bouton-point);
+  z-index: -1;
+}
+
+.bouton:hover,
+.bouton:focus-visible {
+  color: var(--bouton-texte-survol);
+}
+
+.bouton:hover::before,
+.bouton:focus-visible::before {
+  transform: scale(90);
+}
+
+/* Variantes selon le fond sur lequel le bouton est posé */
+.theme-marine .bouton,
+.theme-encre .bouton {
+  --bouton-fond: var(--orange);
+  --bouton-texte: var(--encre);
+  --bouton-point: var(--creme);
+  --bouton-texte-survol: var(--encre);
+}
+
+.theme-orange .bouton {
+  --bouton-fond: var(--encre);
+  --bouton-texte: var(--creme);
+  --bouton-point: var(--creme);
+  --bouton-texte-survol: var(--encre);
+}
+
+.bouton__fleche {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bouton:hover .bouton__fleche,
+.bouton:focus-visible .bouton__fleche {
+  transform: translate(3px, -3px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .bouton,
+  .bouton__fleche {
+    transition:
+      color var(--t-moyen) ease,
+      transform var(--t-moyen) var(--ease-sortie);
+  }
+
+  .bouton::before {
+    transition: transform 0.6s var(--ease-sortie);
+  }
+}
+
+/* ----- Trame d'imprimerie : un champ de points, comme sur une photo de journal ----- */
+.trame {
+  position: relative;
+  isolation: isolate;
+}
+
+.trame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(circle at center, currentColor 1.1px, transparent 1.6px);
+  background-size: 14px 14px;
+  opacity: 0.14;
+  mask-image: linear-gradient(to left, #000 0%, transparent 78%);
+}
+
+/* ----- Éclat : un reflet en biais traverse le bloc au survol ----- */
+.eclat {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.eclat::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(-45deg, transparent 58%, rgb(248 244 236 / 0.2) 70%, transparent 82%) no-repeat;
+  background-size: 250% 250%;
+  background-position: -100% -100%;
+}
+
+.eclat:hover::after {
+  background-position: 100% 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .eclat::after {
+    transition: background-position 0.9s var(--ease-sortie);
+  }
+}

@@ -1,0 +1,211 @@
+---
+// Carte des lieux de tournage, dessinée par nous : aucune bibliothèque de carte, aucune tuile, aucun service externe.
+// Le fond (contours des communes) est un SVG fabriqué une fois (scripts/construire-fond-carte.mjs).
+// Les pins viennent de src/data/lieux.js : seuls les lieux avec accordAffichage: true sont montrés.
+// Aucune position n'est devinée : un lieu sans latitude/longitude valides n'a pas de pin.
+import { lieux } from '../data/lieux.js';
+import { fondCarte as fond } from '../data/fond-carte.js';
+import { projeter, regrouper } from '../utils/carte.js';
+
+// Sur un petit téléphone (environ 340 px de carte), deux pins doivent rester à 44 px l'un de l'autre.
+// On convertit cette distance en unités du dessin ; les pins plus proches sont regroupés.
+const seuil = 44 / (340 / fond.largeur);
+
+// 1. Seuls les lieux dont l'accord pour être cités sur le site est confirmé sont affichés.
+const affiches = lieux.filter((l) => l.accordAffichage === true && l.nom && l.commune);
+
+// 2. Position sur le fond de carte
+const positionnes = [];
+const sansPosition = [];
+for (const lieu of affiches) {
+  const valide = typeof lieu.latitude === 'number' && typeof lieu.longitude === 'number';
+  const p = valide ? projeter(fond, lieu.latitude, lieu.longitude) : null;
+  if (p && p.x >= 0 && p.x <= fond.largeur && p.y >= 0 && p.y <= fond.hauteur) {
+    positionnes.push({ ...lieu, ...p });
+  } else {
+    sansPosition.push(lieu);
+    console.warn(`[carte] « ${lieu.nom} » : position absente ou hors carte, aucun pin. [À CONFIRMER : position de ${lieu.nom}]`);
+  }
+}
+
+const groupes = regrouper(positionnes, seuil).map((g, i) => ({
+  ...g,
+  id: `fiche-${i + 1}`,
+  gauche: (g.x / fond.largeur) * 100,
+  haut: (g.y / fond.hauteur) * 100,
+  unique: g.lieux.length === 1,
+}));
+
+// 3. Liste en texte regroupée par commune (alternative lisible sans JavaScript, utile au référencement local)
+const parCommune = new Map();
+for (const lieu of affiches) {
+  if (!parCommune.has(lieu.commune)) parCommune.set(lieu.commune, []);
+  parCommune.get(lieu.commune).push(lieu);
+}
+const communes = [...parCommune.entries()]
+  .sort(([a], [b]) => a.localeCompare(b, 'fr'))
+  .map(([commune, liste]) => [commune, liste.sort((a, b) => a.nom.localeCompare(b.nom, 'fr'))]);
+
+// Le nombre d'adresses est calculé à partir de la liste affichée, jamais écrit à la main.
+const nombre = affiches.length;
+const noms = fond.principales.map((c) => c.nom).join(', ');
+---
+
+<section id="carte" class="section theme-creme carte" aria-labelledby="titre-carte">
+  <div class="conteneur carte__grille">
+    <div class="carte__entete">
+      <h2 id="titre-carte">Les adresses où nous avons tourné</h2>
+      {
+        nombre > 0 ? (
+          <p class="chapo">
+            {nombre} adresse{nombre > 1 ? 's' : ''} où une vidéo a été tournée, à retrouver sur la carte et dans la liste
+            par commune.
+          </p>
+        ) : (
+          <p class="chapo">Chaque pin de cette carte marquera une adresse où une vidéo a été tournée.</p>
+        )
+      }
+      {nombre === 0 && <p class="a-confirmer">[À CONFIRMER : carte et liste des lieux à recevoir de Léane]</p>}
+    </div>
+
+    <div class="carte__zone" data-carte>
+      <div class="carte__cadre" style={`aspect-ratio: ${fond.largeur} / ${fond.hauteur}`}>
+        <svg
+          class="carte__svg"
+          viewBox={`0 0 ${fond.largeur} ${fond.hauteur}`}
+          role="img"
+          aria-label={`Fond de carte de l'Ouest lyonnais : ${noms} et les communes voisines`}
+          focusable="false"
+        >
+          <path class="carte__voisines" d={fond.voisines}></path>
+          {fond.principales.map((c) => <path class="carte__commune" d={c.d}></path>)}
+        </svg>
+
+        {
+          fond.etiquettesVoisines.map((e) => (
+            <span
+              class="carte__nom carte__nom--voisine"
+              aria-hidden="true"
+              style={`--x:${(e.x / fond.largeur) * 100}%;--y:${(e.y / fond.hauteur) * 100}%`}
+            >
+              {e.nom}
+            </span>
+          ))
+        }
+        {
+          fond.principales.map((c) => (
+            <span
+              class="carte__nom"
+              aria-hidden="true"
+              style={`--x:${(c.x / fond.largeur) * 100}%;--y:${(c.y / fond.hauteur) * 100}%`}
+            >
+              {c.nom}
+            </span>
+          ))
+        }
+
+        {
+          groupes.map((g) => {
+            const premier = g.lieux[0];
+            const nomAccessible = g.unique
+              ? `${premier.nom}, ${premier.commune}`
+              : `${g.lieux.length} adresses : ${g.lieux.map((l) => `${l.nom} (${l.commune})`).join(', ')}`;
+            const dessous = g.haut < 55;
+            return (
+              <>
+                <button
+                  type="button"
+                  class:list={['pin', { 'pin--groupe': !g.unique }]}
+                  style={`--x:${g.gauche}%;--y:${g.haut}%`}
+                  aria-label={nomAccessible}
+                  aria-expanded="false"
+                  aria-controls={g.id}
+                >
+                  <span class="pin__disque" aria-hidden="true">{!g.unique && g.lieux.length}</span>
+                </button>
+                <div
+                  id={g.id}
+                  class:list={['fiche', dessous ? 'fiche--dessous' : 'fiche--dessus']}
+                  style={`--x:${g.gauche}%;--y:${g.haut}%`}
+                  hidden
+                >
+                  {g.lieux.map((l) => (
+                    <div class="fiche__lieu">
+                      <p class="fiche__nom">{l.nom}</p>
+                      <p class="fiche__commune">{l.commune}</p>
+                      {l.lien && (
+                        <a href={l.lien} target="_blank" rel="noopener" referrerpolicy="no-referrer">
+                          En savoir plus<span class="sr-only"> sur {l.nom} (s'ouvre dans un nouvel onglet)</span>
+                        </a>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </>
+            );
+          })
+        }
+      </div>
+      <p class="carte__source">Fond de carte : contours des communes, {fond.source}.</p>
+    </div>
+
+    {
+      nombre > 0 && (
+        <div class="carte__liste">
+          {communes.map(([commune, liste]) => (
+            <section class="carte__commune-liste" aria-labelledby={`commune-${commune}`}>
+              <h3 id={`commune-${commune}`}>{commune}</h3>
+              <ul>
+                {liste.map((l) => (
+                  <li>
+                    {l.lien ? (
+                      <a href={l.lien} target="_blank" rel="noopener" referrerpolicy="no-referrer">
+                        {l.nom}
+                        <span class="sr-only"> (s'ouvre dans un nouvel onglet)</span>
+                      </a>
+                    ) : (
+                      l.nom
+                    )}
+                    {sansPosition.includes(l) && <span class="a-confirmer">[À CONFIRMER : position de {l.nom}]</span>}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      )
+    }
+  </div>
+
+  {
+    groupes.length > 0 && (
+      <script is:inline>
+        {`// Fiche d'un pin : s'ouvre au clic, au toucher ou au clavier ; Échap ou un clic ailleurs la ferme.
+(function () {
+  var pins = document.querySelectorAll('[data-carte] .pin');
+  function fermer() {
+    pins.forEach(function (p) {
+      p.setAttribute('aria-expanded', 'false');
+      document.getElementById(p.getAttribute('aria-controls')).hidden = true;
+    });
+  }
+  pins.forEach(function (p) {
+    p.addEventListener('click', function () {
+      var fiche = document.getElementById(p.getAttribute('aria-controls'));
+      var ouvrir = fiche.hidden;
+      fermer();
+      if (ouvrir) { fiche.hidden = false; p.setAttribute('aria-expanded', 'true'); }
+    });
+  });
+  document.addEventListener('click', function (e) { if (!e.target.closest('.pin, .fiche')) fermer(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    var ouvert = document.querySelector('[data-carte] .pin[aria-expanded="true"]');
+    fermer();
+    if (ouvert) ouvert.focus();
+  });
+})();`}
+      </script>
+    )
+  }
+</section>

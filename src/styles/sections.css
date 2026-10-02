@@ -1,0 +1,1250 @@
+/* =============================================================================
+   SECTIONS DE LA PAGE D'ACCUEIL, PIED DE PAGE, PAGES LÉGALES, PHOTOS
+   Univers : la une d'un journal local. Filets (simples et doubles), colonnes, lettrines, trame d'imprimerie.
+   Mobile d'abord : tout est écrit pour 375 px, puis élargi à 768 px et 1440 px.
+   Aucune ombre, aucun coin arrondi, aucun dégradé.
+   ============================================================================= */
+
+.section {
+  padding-block: var(--section-y);
+}
+
+.section h2 {
+  margin-block-end: var(--sp-4);
+  font-size: var(--fs-6);
+  line-height: 1;
+}
+
+.chapo {
+  font-size: var(--fs-4);
+  font-style: italic;
+  line-height: 1.5;
+  max-inline-size: 58ch;
+}
+
+/* Un trait orange court sous ou sur un titre : la signature graphique du site */
+.trait {
+  display: block;
+  inline-size: 3.5rem;
+  block-size: 6px;
+  background: var(--orange);
+}
+
+/* ============================ HÉROS (pas en pleine hauteur) ============================ */
+.hero {
+  position: relative;
+  overflow: clip;
+  padding-block: var(--sp-5) var(--sp-8);
+}
+
+.hero__journal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--sp-1) var(--sp-5);
+  padding-block: var(--sp-2);
+  border-block-start: 3px double var(--filet);
+  border-block-end: var(--filet-fin) solid var(--filet);
+  font: 700 var(--fs-1) / 1.4 var(--police-titre);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--doux);
+}
+
+.hero__journal p,
+.hero__journal ul {
+  margin: 0;
+  max-inline-size: none;
+}
+
+.hero__communes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--sp-5);
+}
+
+.hero__corps {
+  display: grid;
+  gap: var(--sp-7);
+  padding-block-start: var(--sp-7);
+}
+
+.hero__titre {
+  font-size: var(--fs-7);
+  line-height: 0.95;
+  letter-spacing: -0.005em;
+}
+
+/* Le trait orange sous « Ouest lyonnais » : le texte est lisible dès le départ, seul le trait se dessine. */
+.surligne {
+  background-image: linear-gradient(var(--orange), var(--orange));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 0.13em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .surligne {
+    animation: tracer 1.1s 0.4s var(--ease-sortie) both;
+  }
+
+  @keyframes tracer {
+    from {
+      background-size: 0 0.13em;
+    }
+  }
+}
+
+.hero__chapo {
+  margin-block: var(--sp-6) var(--sp-6);
+  color: var(--creme);
+}
+
+.hero__lateral {
+  display: grid;
+  gap: var(--sp-5);
+  grid-template-rows: 1fr;
+}
+
+.affiche {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--sp-6);
+  min-block-size: 20rem;
+  margin: 0;
+  max-inline-size: none;
+  padding: var(--sp-6);
+  background: var(--encre);
+  color: var(--creme);
+  border: 2px solid var(--orange);
+}
+
+.affiche__logo {
+  align-self: flex-end;
+  inline-size: clamp(7.5rem, 16vw, 11rem);
+  block-size: auto;
+  aspect-ratio: 1;
+}
+
+.hero--photo .affiche__logo {
+  display: none;
+}
+
+.hero--photo .affiche {
+  min-block-size: 0;
+}
+
+.affiche__texte {
+  margin: 0;
+  max-inline-size: none;
+  font: 700 var(--fs-6) / 1.02 var(--police-titre);
+  text-transform: uppercase;
+}
+
+.affiche__texte em {
+  display: block;
+  font-style: normal;
+  color: var(--orange); /* grand titre orange sur marine profond : 5,68:1 */
+}
+
+.hero__photo img {
+  inline-size: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+@media (min-width: 62rem) {
+  .hero__corps {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: var(--sp-8);
+    align-items: stretch;
+  }
+
+  .hero__texte {
+    align-self: center;
+  }
+}
+
+/* ============================ CONCEPT + DUO ============================ */
+.concept__grille {
+  display: grid;
+  gap: var(--sp-7);
+}
+
+.concept__chapo::first-letter {
+  float: left;
+  margin: 0.04em 0.1em 0 0;
+  font: 700 4.6em / 0.78 var(--police-titre);
+  color: var(--orange-texte); /* orange foncé : 5,61:1 sur crème */
+}
+
+.concept__colonnes {
+  margin-block-start: var(--sp-6);
+  column-gap: var(--sp-6);
+  column-rule: var(--filet-fin) solid var(--filet);
+}
+
+.concept__colonnes p {
+  break-inside: avoid-column;
+  max-inline-size: none;
+}
+
+@media (min-width: 48rem) {
+  .concept__colonnes {
+    columns: 2;
+  }
+}
+
+.concept__citation {
+  margin-block: var(--sp-5) 0;
+  padding-block-start: var(--sp-4);
+  border-block-start: 6px solid var(--orange);
+  font-size: var(--fs-5);
+  font-style: italic;
+  line-height: 1.35;
+  max-inline-size: 26ch;
+}
+
+.concept__photo {
+  margin-block-start: var(--sp-5);
+}
+
+.concept__photo img {
+  inline-size: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.duo {
+  margin-block-start: var(--sp-7);
+  padding-block-start: var(--sp-5);
+  border-block-start: 3px double var(--marine);
+}
+
+.duo__intro {
+  font-size: var(--fs-4);
+  font-style: italic;
+}
+
+.duo__liste {
+  display: grid;
+  gap: var(--sp-6);
+  margin-block: var(--sp-5);
+}
+
+.duo__personne h3 {
+  font-size: var(--fs-6);
+}
+
+.duo__personne h3::before {
+  content: '';
+  display: block;
+  inline-size: 3.5rem;
+  block-size: 6px;
+  margin-block-end: var(--sp-3);
+  background: var(--orange);
+}
+
+.duo__role {
+  margin-block: var(--sp-2) var(--sp-3);
+  font-weight: 700;
+  color: var(--orange-texte);
+}
+
+.duo__ensemble {
+  font-weight: 700;
+  margin-block-end: 0;
+}
+
+@media (min-width: 48rem) {
+  .duo__liste {
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .duo__personne {
+    padding-inline-end: var(--sp-6);
+  }
+
+  .duo__personne + .duo__personne {
+    padding-inline: var(--sp-6) 0;
+    border-inline-start: var(--filet-fin) solid var(--filet);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .duo__personne h3::before {
+    transition: inline-size var(--t-lent) var(--ease-sortie);
+  }
+}
+
+.duo__personne:hover h3::before,
+.duo__personne:focus-within h3::before {
+  inline-size: 100%;
+}
+
+@media (min-width: 62rem) {
+  .concept__grille {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    column-gap: var(--sp-8);
+    align-items: start;
+  }
+
+  .concept__entete {
+    position: sticky;
+    inset-block-start: calc(var(--hauteur-entete) + var(--sp-5));
+  }
+}
+
+/* ============================ POURQUOI (4 raisons) ============================ */
+.pourquoi__grille {
+  display: grid;
+  gap: var(--sp-6);
+}
+
+.pourquoi__appel {
+  margin: var(--sp-5) 0 0;
+  padding-block-start: var(--sp-4);
+  border-block-start: 6px solid var(--orange);
+  font: 700 var(--fs-5) / 1.1 var(--police-titre);
+  text-transform: uppercase;
+  color: var(--orange-texte); /* texte orange foncé sur papier : 5,01:1 */
+  max-inline-size: 22ch;
+}
+
+.raisons {
+  border-block-start: 3px double var(--marine);
+}
+
+.raison {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sp-4);
+  padding: var(--sp-6) var(--sp-3);
+  border-block-end: var(--filet-fin) solid var(--filet);
+}
+
+.raison .icone {
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  margin-block-start: 0.15rem;
+  color: var(--orange-texte);
+  stroke-width: 1.5;
+}
+
+.raison h3 {
+  margin-block-end: var(--sp-3);
+  font-size: var(--fs-5);
+  line-height: 1.05;
+}
+
+.raison p {
+  margin: 0;
+}
+
+.raison:hover,
+.raison:focus-within {
+  background: var(--creme);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .raison {
+    transition: background-color var(--t-moyen) ease;
+  }
+
+  .raison .icone {
+    transition: transform var(--t-moyen) var(--ease-sortie);
+  }
+
+  .raison:hover .icone {
+    transform: translateX(4px);
+  }
+}
+
+@media (min-width: 62rem) {
+  .pourquoi__grille {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    column-gap: var(--sp-8);
+    align-items: start;
+  }
+
+  .pourquoi__entete {
+    position: sticky;
+    inset-block-start: calc(var(--hauteur-entete) + var(--sp-5));
+  }
+
+  .raison {
+    gap: var(--sp-5);
+    padding-inline: var(--sp-5);
+  }
+}
+
+/* ============================ OFFRE (aplat orange) ============================ */
+.offre h2 {
+  max-inline-size: 14ch;
+}
+
+.offre__grille {
+  display: grid;
+  gap: var(--sp-7);
+}
+
+.offre__accroche {
+  margin-block: var(--sp-5) 0;
+  font-size: var(--fs-4);
+  font-weight: 700;
+  line-height: 1.4;
+  max-inline-size: 36ch;
+}
+
+.inclus {
+  margin-block: var(--sp-6);
+  border-block-start: 3px double var(--encre);
+}
+
+.inclus li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--sp-4);
+  padding-block: var(--sp-4);
+  border-block-end: var(--filet-fin) solid var(--filet);
+}
+
+.inclus .icone {
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  stroke-width: 1.5;
+}
+
+.inclus p {
+  margin: 0;
+}
+
+.inclus__valeur {
+  display: block;
+  font: 700 var(--fs-6) / 1 var(--police-titre);
+  text-transform: uppercase;
+}
+
+.offre__note {
+  max-inline-size: 46ch;
+}
+
+/* Le « billet » : un coupon détachable de journal, avec le prix */
+.billet {
+  padding: var(--sp-2);
+  background: var(--creme);
+  color: var(--marine);
+  --anneau: var(--marine);
+}
+
+.billet__interieur {
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-6) var(--sp-5);
+  border: 2px dashed var(--marine);
+}
+
+.billet p {
+  margin: 0;
+  max-inline-size: none;
+}
+
+.billet__prix {
+  font: 700 var(--fs-8) / 0.9 var(--police-titre);
+  text-transform: uppercase;
+  color: var(--marine);
+}
+
+.billet__prix--demande {
+  font-size: var(--fs-6);
+  line-height: 1;
+}
+
+.billet__libelle {
+  font-size: var(--fs-4);
+  font-style: italic;
+}
+
+.billet__offre {
+  padding-block-start: var(--sp-3);
+  border-block-start: var(--filet-fin) solid var(--filet);
+  font-weight: 700;
+}
+
+.billet__tva {
+  font-size: var(--fs-2);
+  color: var(--doux);
+}
+
+.offre__action {
+  margin-block-start: var(--sp-5);
+}
+
+.offre__photo img {
+  inline-size: 100%;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+}
+
+@media (min-width: 62rem) {
+  .offre__grille {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: var(--sp-8);
+    align-items: center;
+  }
+}
+
+/* ============================ PROCESSUS (étapes) ============================ */
+.etapes {
+  display: grid;
+  margin-block-start: var(--sp-7);
+  counter-reset: etape;
+}
+
+.etape {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4.25rem 1fr;
+  column-gap: var(--sp-4);
+  align-content: start;
+  padding-block: var(--sp-5);
+  border-block-start: var(--filet-fin) solid var(--filet);
+  counter-increment: etape;
+}
+
+.etape::before {
+  content: counter(etape);
+  grid-row: 1 / span 2;
+  font: 700 var(--fs-8) / 0.85 var(--police-titre);
+  color: var(--marine);
+}
+
+.etape::after {
+  content: '';
+  position: absolute;
+  inset: -1px 0 auto 0;
+  block-size: 6px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.etape:hover::after,
+.etape:focus-within::after {
+  transform: scaleX(1);
+}
+
+.etape:hover::before {
+  color: var(--orange-texte);
+}
+
+.etape h3 {
+  font-size: var(--fs-5);
+  line-height: 1.05;
+}
+
+.etape p {
+  margin: var(--sp-2) 0 0;
+  font-size: var(--fs-2);
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .etape::after {
+    transition: transform var(--t-lent) var(--ease-sortie);
+  }
+
+  .etape::before {
+    transition: color var(--t-moyen) ease;
+  }
+}
+
+@media (min-width: 62rem) {
+  .etapes {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    column-gap: var(--sp-5);
+  }
+
+  .etape {
+    display: block;
+    padding-block: var(--sp-5) 0;
+    border-block-start: var(--filet-epais) solid var(--marine);
+  }
+
+  .etape::after {
+    inset: -3px 0 auto 0;
+  }
+
+  .etape::before {
+    display: block;
+    margin-block-end: var(--sp-4);
+    font-size: 5.5rem;
+  }
+}
+
+/* ============================ CHIFFRES ============================ */
+.chiffres {
+  --chiffre: clamp(2.5rem, 1rem + 5vw, 6rem);
+}
+
+.tableau {
+  display: grid;
+  margin-block-start: var(--sp-7);
+  border-block-start: 3px double var(--creme);
+}
+
+.cellule {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+  padding-block: var(--sp-5);
+  border-block-end: var(--filet-fin) solid var(--filet);
+}
+
+.cellule dt {
+  font-size: var(--fs-4);
+  font-style: italic;
+  color: var(--doux);
+}
+
+.cellule dd {
+  font: 700 var(--chiffre) / 0.9 var(--police-titre);
+  color: var(--orange); /* grand chiffre orange sur marine : 4,24:1, suffisant pour du gros texte */
+  white-space: nowrap;
+}
+
+.chiffres__source {
+  margin-block: var(--sp-4) 0;
+  padding-block-start: var(--sp-4);
+  border-block-start: var(--filet-fin) solid var(--filet);
+  font-size: var(--fs-2);
+  font-weight: 700;
+  color: var(--creme);
+  max-inline-size: 26ch;
+}
+
+.chiffres__note {
+  margin-block-start: var(--sp-5);
+}
+
+.chiffres__note {
+  margin: var(--sp-5) 0 0;
+  font-size: var(--fs-2);
+  color: var(--doux);
+}
+
+@media (min-width: 40rem) {
+  .tableau {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--sp-6);
+  }
+}
+
+@media (min-width: 62rem) {
+  .chiffres__grille {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    column-gap: var(--sp-8);
+    align-items: start;
+  }
+
+  .tableau {
+    margin-block-start: 0;
+  }
+
+  .chiffres__entete {
+    position: sticky;
+    inset-block-start: calc(var(--hauteur-entete) + var(--sp-5));
+  }
+}
+
+/* ============================ ACCOMPAGNEMENT (encart distinct) ============================ */
+.encart {
+  padding: clamp(var(--sp-5), 4vw, var(--sp-8));
+  background: var(--creme);
+  border: 3px double var(--marine);
+}
+
+.encart h2 {
+  max-inline-size: 26ch;
+}
+
+.encart .chapo {
+  margin-block-start: var(--sp-5);
+}
+
+.encart__corps {
+  display: grid;
+  gap: var(--sp-6);
+  margin-block-start: var(--sp-6);
+}
+
+.encart__sous-titre {
+  margin-block-end: var(--sp-3);
+  font-size: var(--fs-5);
+}
+
+.prestations li {
+  display: flex;
+  gap: var(--sp-3);
+  padding-block: var(--sp-3);
+  border-block-end: var(--filet-fin) solid var(--filet);
+}
+
+.prestations li::before {
+  content: '';
+  flex: none;
+  inline-size: 0.875rem;
+  block-size: 3px;
+  margin-block-start: 0.85em;
+  background: var(--orange);
+}
+
+.formules {
+  font-size: var(--fs-4);
+  line-height: 1.5;
+}
+
+.formules strong {
+  background-image: linear-gradient(var(--orange), var(--orange));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 3px;
+  font-weight: 700;
+}
+
+.tarif {
+  display: inline-block;
+  margin: var(--sp-4) 0 0;
+  padding: var(--sp-3) var(--sp-5);
+  border: 2px solid var(--marine);
+  font: 700 var(--fs-5) / 1 var(--police-titre);
+  text-transform: uppercase;
+}
+
+@media (min-width: 62rem) {
+  .encart__corps {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: var(--sp-8);
+    align-items: start;
+  }
+
+  .prestations {
+    columns: 2;
+    column-gap: var(--sp-6);
+  }
+
+  .prestations li {
+    break-inside: avoid;
+  }
+}
+
+/* ============================ APPEL FINAL ============================ */
+.appel__grille {
+  display: grid;
+  gap: var(--sp-6);
+  align-items: center;
+}
+
+.appel h2 {
+  font-size: var(--fs-7);
+  line-height: 0.95;
+  max-inline-size: 16ch;
+}
+
+.appel__texte p {
+  max-inline-size: 36ch;
+}
+
+.appel__action {
+  margin-block-start: var(--sp-5);
+}
+
+@media (min-width: 62rem) {
+  .appel__grille {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: var(--sp-8);
+  }
+}
+
+/* ============================ CARTE DES LIEUX DE TOURNAGE ============================ */
+.carte__grille {
+  display: grid;
+  gap: var(--sp-6);
+}
+
+.carte__entete .a-confirmer {
+  margin-block-start: var(--sp-3);
+}
+
+.carte__zone {
+  min-inline-size: 0;
+}
+
+/* Le cadre n'a pas de bordure propre : les pourcentages des pins restent exacts. Le liseré double est dessiné par-dessus. */
+.carte__cadre {
+  position: relative;
+  inline-size: 100%;
+  background: var(--creme);
+}
+
+.carte__cadre::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border: 3px double var(--marine);
+  pointer-events: none;
+}
+
+.carte__svg {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.carte__voisines {
+  fill: var(--creme);
+  stroke: var(--marine);
+  stroke-width: 1;
+  stroke-opacity: 0.45;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.carte__commune {
+  fill: var(--papier);
+  stroke: var(--marine);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.carte__nom {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  z-index: 1;
+  max-inline-size: 3.75rem;
+  transform: translate(-50%, -50%);
+  font: 700 0.75rem / 1.05 var(--police-titre);
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: uppercase;
+  text-wrap: balance;
+  hyphens: auto;
+  color: var(--marine);
+  pointer-events: none;
+}
+
+.carte__nom--voisine {
+  display: none;
+  font: italic 400 0.875rem / 1.1 var(--police-texte);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--marine-doux);
+}
+
+.carte__source {
+  margin: var(--sp-2) 0 0;
+  font-size: var(--fs-2);
+  color: var(--doux);
+}
+
+/* Pin : un vrai bouton, zone tactile de 44 px, le disque visible est plus petit */
+.pin {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  inline-size: var(--zone-tactile);
+  block-size: var(--zone-tactile);
+  margin: calc(var(--zone-tactile) / -2) 0 0 calc(var(--zone-tactile) / -2);
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.pin__disque {
+  display: grid;
+  place-items: center;
+  inline-size: 1.375rem;
+  block-size: 1.375rem;
+  background: var(--orange);
+  border: 3px solid var(--marine);
+  border-radius: 50%;
+  font: 700 0.9375rem / 1 var(--police-titre);
+  color: var(--encre);
+}
+
+.pin--groupe .pin__disque {
+  inline-size: 2rem;
+  block-size: 2rem;
+}
+
+.pin:hover .pin__disque,
+.pin[aria-expanded='true'] .pin__disque {
+  background: var(--marine);
+  color: var(--creme);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pin__disque {
+    transition:
+      transform var(--t-moyen) var(--ease-sortie),
+      background-color var(--t-rapide) ease,
+      color var(--t-rapide) ease;
+  }
+
+  .pin:hover .pin__disque,
+  .pin:focus-visible .pin__disque {
+    transform: scale(1.18);
+  }
+}
+
+/* Fiche d'un pin : nom, commune, lien. Elle reste toujours dans la carte. */
+.fiche {
+  --largeur-fiche: min(17rem, 100% - 1rem);
+  position: absolute;
+  left: clamp(var(--largeur-fiche) / 2, var(--x), 100% - var(--largeur-fiche) / 2);
+  z-index: 4;
+  inline-size: var(--largeur-fiche);
+  max-block-size: 70%;
+  overflow: auto;
+  padding: var(--sp-4);
+  background: var(--creme);
+  color: var(--marine);
+  border: 2px solid var(--marine);
+  transform: translateX(-50%);
+}
+
+.fiche[hidden] {
+  display: none;
+}
+
+.fiche--dessous {
+  top: calc(var(--y) + 1.6rem);
+}
+
+.fiche--dessus {
+  bottom: calc(100% - var(--y) + 1.6rem);
+}
+
+.fiche__lieu + .fiche__lieu {
+  margin-block-start: var(--sp-3);
+  padding-block-start: var(--sp-3);
+  border-block-start: var(--filet-fin) solid var(--filet);
+}
+
+.fiche__nom {
+  margin: 0;
+  font: 700 var(--fs-5) / 1.05 var(--police-titre);
+  text-transform: uppercase;
+}
+
+.fiche__commune {
+  margin: var(--sp-1) 0 var(--sp-2);
+  font-size: var(--fs-2);
+  color: var(--doux);
+}
+
+.fiche a {
+  font-weight: 700;
+}
+
+/* Liste en texte, groupée par commune : alternative accessible, lisible sans JavaScript */
+.carte__liste {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--sp-5) var(--sp-6);
+  padding-block-start: var(--sp-5);
+  border-block-start: 3px double var(--marine);
+}
+
+.carte__commune-liste h3 {
+  margin-block-end: var(--sp-2);
+  font-size: var(--fs-5);
+}
+
+.carte__commune-liste li {
+  padding-block: var(--sp-2);
+  border-block-end: var(--filet-fin) solid var(--filet);
+}
+
+@media (min-width: 48rem) {
+  .carte__nom {
+    max-inline-size: 9rem;
+    font-size: 1.0625rem;
+    letter-spacing: 0.06em;
+    hyphens: manual;
+  }
+
+  .carte__nom--voisine {
+    display: block;
+  }
+}
+
+@media (min-width: 62rem) {
+  .carte__grille {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    grid-template-areas:
+      'entete zone'
+      'liste liste';
+    column-gap: var(--sp-8);
+    align-items: start;
+  }
+
+  .carte__entete {
+    grid-area: entete;
+  }
+
+  .carte__zone {
+    grid-area: zone;
+  }
+
+  .carte__liste {
+    grid-area: liste;
+  }
+}
+
+/* ============================ GALERIE (invisible tant qu'aucune photo n'est validée) ============================ */
+.galerie__liste {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-3);
+  margin-block-start: var(--sp-6);
+}
+
+.galerie__liste .photo img {
+  inline-size: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+@media (min-width: 48rem) {
+  .galerie__liste {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ============================ PHOTOS (commun) ============================ */
+.photo {
+  position: relative;
+}
+
+.photo figcaption {
+  margin-block-start: var(--sp-2);
+  font-size: var(--fs-2);
+  color: var(--doux);
+}
+
+.photo__lien {
+  position: relative;
+  display: block;
+}
+
+.photo__lecture {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  display: grid;
+  place-items: center;
+  inline-size: 4rem;
+  block-size: 4rem;
+  margin: -2rem 0 0 -2rem;
+  background: var(--creme);
+  color: var(--marine);
+  border-radius: 50%;
+}
+
+.photo__lecture svg {
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  fill: currentColor;
+}
+
+/* ============================ PIED DE PAGE ============================ */
+.pied {
+  padding-block: var(--sp-8) var(--sp-6);
+}
+
+.pied__grille {
+  display: grid;
+  gap: var(--sp-7);
+}
+
+.pied__marque {
+  display: grid;
+  gap: var(--sp-4);
+  justify-items: start;
+}
+
+.pied__marque img {
+  inline-size: 6rem;
+  block-size: 6rem;
+}
+
+.pied__signature {
+  margin: 0;
+  font: 700 var(--fs-5) / 1.05 var(--police-titre);
+  text-transform: uppercase;
+  max-inline-size: 18ch;
+}
+
+.pied__titre {
+  margin-block-end: var(--sp-3);
+  padding-block-end: var(--sp-2);
+  border-block-end: var(--filet-fin) solid var(--filet);
+  font-size: var(--fs-1);
+  letter-spacing: 0.14em;
+  color: var(--doux);
+}
+
+.pied__liste li {
+  margin-block-end: var(--sp-2);
+}
+
+.pied a,
+.pied__credit a {
+  display: inline-block;
+  padding-block: 0.4em;
+  text-decoration: none;
+  background: linear-gradient(var(--orange), var(--orange)) no-repeat 0 90% / 100% 2px;
+}
+
+.pied a:hover,
+.pied a:focus-visible {
+  background-size: 100% 100%;
+  color: var(--encre);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pied a {
+    transition:
+      background-size var(--t-moyen) var(--ease-sortie),
+      color var(--t-moyen) ease;
+  }
+}
+
+.pied__bas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--sp-3) var(--sp-6);
+  margin-block-start: var(--sp-7);
+  padding-block-start: var(--sp-4);
+  border-block-start: var(--filet-fin) solid var(--filet);
+  font-size: var(--fs-2);
+}
+
+.pied__legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1) var(--sp-5);
+}
+
+.pied__credit {
+  margin: 0;
+  max-inline-size: none;
+  color: var(--doux);
+}
+
+@media (min-width: 48rem) {
+  .pied__grille {
+    grid-template-columns: 1.4fr 1fr 1fr;
+    column-gap: var(--sp-7);
+  }
+}
+
+/* ============================ PAGES LÉGALES ============================ */
+.page-texte {
+  padding-block: var(--sp-8) var(--sp-9);
+}
+
+.page-texte__entete {
+  margin-block-end: var(--sp-7);
+  padding-block-end: var(--sp-5);
+  border-block-end: 3px double var(--marine);
+}
+
+.page-texte h1 {
+  font-size: var(--fs-7);
+  line-height: 0.95;
+}
+
+.page-texte__intro {
+  margin-block-start: var(--sp-4);
+  font-size: var(--fs-4);
+  font-style: italic;
+}
+
+.page-texte h2 {
+  margin-block: var(--sp-7) var(--sp-3);
+  font-size: var(--fs-5);
+  line-height: 1.05;
+}
+
+.page-texte h2::before {
+  content: '';
+  display: block;
+  inline-size: 2.5rem;
+  block-size: 5px;
+  margin-block-end: var(--sp-3);
+  background: var(--orange);
+}
+
+.page-texte ul {
+  margin-block-end: var(--sp-4);
+  padding-inline-start: var(--sp-5);
+  list-style: disc;
+  max-inline-size: var(--mesure);
+}
+
+.page-texte li {
+  margin-block-end: var(--sp-2);
+}
+
+.page-texte li::marker {
+  color: var(--orange-texte);
+}
+
+.page-texte dl {
+  display: grid;
+  max-inline-size: var(--mesure);
+}
+
+.page-texte dt {
+  margin-block-start: var(--sp-4);
+  font: 700 var(--fs-1) / 1.2 var(--police-titre);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--orange-texte);
+}
+
+.page-texte dd {
+  padding-block-end: var(--sp-3);
+  border-block-end: var(--filet-fin) solid var(--filet);
+}
+
+.page-texte__retour {
+  margin-block-start: var(--sp-7);
+}
+
+@media (min-width: 62rem) {
+  .page-texte__corps {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+    column-gap: var(--sp-8);
+  }
+}
