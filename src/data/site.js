@@ -12,6 +12,9 @@ export const site = {
   // À remplacer par le vrai domaine avant la mise en ligne (une seule ligne à changer).
   url: 'https://demo-adresses-ouest.pages.dev',
 
+  // Couleur de la barre du navigateur sur téléphone (balise meta) : le bleu marine du logo, voir src/styles/tokens.css
+  couleurBarre: '#162996',
+
   email: 'lesadressesdelouest@gmail.com',
   telephone: { affiche: '07 86 53 95 46', lien: '+33786539546' },
 

@@ -58,7 +58,7 @@
   background: var(--marine);
   color: var(--creme);
   --anneau: var(--creme);
-  border-block-end: 1px solid rgb(248 244 236 / 0.2);
+  border-block-end: 1px solid color-mix(in srgb, var(--creme) 20%, transparent);
 }
 
 .entete__barre {
@@ -114,7 +114,7 @@
   text-transform: uppercase;
   text-decoration: none;
   color: var(--creme);
-  border-block-end: 1px solid rgb(248 244 236 / 0.22);
+  border-block-end: 1px solid color-mix(in srgb, var(--creme) 22%, transparent);
 }
 
 .nav__lien:hover,
@@ -354,7 +354,7 @@
   background-image: radial-gradient(circle at center, currentColor 1.1px, transparent 1.6px);
   background-size: 14px 14px;
   opacity: 0.14;
-  mask-image: linear-gradient(to left, #000 0%, transparent 78%);
+  mask-image: linear-gradient(to left, black 0%, transparent 78%);
 }
 
 /* ----- Éclat : un reflet en biais traverse le bloc au survol ----- */
@@ -370,7 +370,7 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(-45deg, transparent 58%, rgb(248 244 236 / 0.2) 70%, transparent 82%) no-repeat;
+  background: linear-gradient(-45deg, transparent 58%, color-mix(in srgb, var(--creme) 20%, transparent) 70%, transparent 82%) no-repeat;
   background-size: 250% 250%;
   background-position: -100% -100%;
 }

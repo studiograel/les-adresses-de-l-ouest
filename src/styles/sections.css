@@ -1150,21 +1150,22 @@
 }
 
 .pied__liste li {
-  margin-block-end: var(--sp-2);
+  margin-block-end: 0;
 }
 
-.pied a,
-.pied__credit a {
-  display: inline-block;
-  padding-block: 0.4em;
+/* Liens du pied de page : zone tactile de 44 px, trait orange sous le texte qui s'épaissit au survol */
+.pied a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--zone-tactile);
   text-decoration: none;
-  background: linear-gradient(var(--orange), var(--orange)) no-repeat 0 90% / 100% 2px;
+  background: linear-gradient(var(--orange), var(--orange)) no-repeat 0 calc(50% + 0.95em) / 100% 2px;
 }
 
 .pied a:hover,
 .pied a:focus-visible {
-  background-size: 100% 100%;
-  color: var(--encre);
+  background-size: 100% 4px;
+  color: var(--orange);
 }
 
 @media (prefers-reduced-motion: no-preference) {

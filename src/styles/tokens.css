@@ -108,7 +108,7 @@
   --doux: var(--marine-doux);
   --accent: var(--orange);
   --accent-texte: var(--orange-texte);
-  --filet: rgb(22 41 150 / 0.3);
+  --filet: color-mix(in srgb, var(--marine) 30%, transparent);
   --anneau: var(--marine);
 }
 
@@ -118,7 +118,7 @@
   --doux: var(--marine-doux);
   --accent: var(--orange);
   --accent-texte: var(--orange-texte);
-  --filet: rgb(22 41 150 / 0.32);
+  --filet: color-mix(in srgb, var(--marine) 32%, transparent);
   --anneau: var(--marine);
 }
 
@@ -128,7 +128,7 @@
   --doux: var(--creme-doux);
   --accent: var(--orange); /* seulement pour de grands éléments (contraste 4,24:1) */
   --accent-texte: var(--orange);
-  --filet: rgb(248 244 236 / 0.32);
+  --filet: color-mix(in srgb, var(--creme) 32%, transparent);
   --anneau: var(--creme);
 }
 
@@ -138,7 +138,7 @@
   --doux: var(--encre);
   --accent: var(--encre);
   --accent-texte: var(--encre);
-  --filet: rgb(14 27 94 / 0.45);
+  --filet: color-mix(in srgb, var(--encre) 45%, transparent);
   --anneau: var(--encre);
 }
 
@@ -148,7 +148,7 @@
   --doux: var(--creme-doux);
   --accent: var(--orange);
   --accent-texte: var(--orange); /* petit texte orange permis sur l'encre : 5,68:1 */
-  --filet: rgb(248 244 236 / 0.28);
+  --filet: color-mix(in srgb, var(--creme) 28%, transparent);
   --anneau: var(--creme);
 }
 

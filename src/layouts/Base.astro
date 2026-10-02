@@ -37,7 +37,7 @@ const contenu = typographieFrancaise(await Astro.slots.render('default'));
     <title>{titre}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonique} />
-    <meta name="theme-color" content="#162996" />
+    <meta name="theme-color" content={site.couleurBarre} />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="fr_FR" />
