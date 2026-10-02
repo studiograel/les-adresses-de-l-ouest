@@ -486,6 +486,10 @@
   margin-block-start: var(--sp-5);
 }
 
+.offre__photo {
+  margin-block-end: var(--sp-7);
+}
+
 .offre__photo img {
   inline-size: 100%;
   aspect-ratio: 21 / 9;
@@ -942,6 +946,36 @@
   bottom: calc(100% - var(--y) + 1.6rem);
 }
 
+/* Téléphone : la fiche devient un bandeau DANS la carte, du côté opposé au pin (elle ne le cache jamais) */
+@media (max-width: 47.999rem) {
+  .fiche {
+    right: 0.5rem;
+    left: 0.5rem;
+    inline-size: auto;
+    max-block-size: 48%;
+    padding: var(--sp-3) var(--sp-4);
+    transform: none;
+  }
+
+  .fiche__nom {
+    font-size: 1.25rem;
+  }
+
+  .fiche__commune {
+    margin-block: 0 var(--sp-1);
+  }
+
+  .fiche--dessous {
+    top: auto;
+    bottom: 0.5rem;
+  }
+
+  .fiche--dessus {
+    top: 0.5rem;
+    bottom: auto;
+  }
+}
+
 .fiche__lieu + .fiche__lieu {
   margin-block-start: var(--sp-3);
   padding-block-start: var(--sp-3);
@@ -981,6 +1015,10 @@
 .carte__commune-liste li {
   padding-block: var(--sp-2);
   border-block-end: var(--filet-fin) solid var(--filet);
+}
+
+.carte__commune-liste .a-confirmer {
+  margin-inline-start: var(--sp-2);
 }
 
 @media (min-width: 48rem) {
@@ -1239,6 +1277,42 @@
 
 .page-texte__retour {
   margin-block-start: var(--sp-7);
+}
+
+.page-texte__sommaire {
+  margin-block-end: var(--sp-6);
+}
+
+.page-texte__sommaire ul {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-block-start: var(--filet-fin) solid var(--filet);
+}
+
+.page-texte__sommaire a {
+  display: flex;
+  align-items: center;
+  min-block-size: var(--zone-tactile);
+  border-block-end: var(--filet-fin) solid var(--filet);
+  font: 700 var(--fs-1) / 1.2 var(--police-titre);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.page-texte__sommaire a:hover,
+.page-texte__sommaire a:focus-visible {
+  color: var(--orange-texte);
+}
+
+@media (min-width: 62rem) {
+  .page-texte__sommaire {
+    position: sticky;
+    inset-block-start: calc(var(--hauteur-entete) + var(--sp-5));
+    align-self: start;
+  }
 }
 
 @media (min-width: 62rem) {

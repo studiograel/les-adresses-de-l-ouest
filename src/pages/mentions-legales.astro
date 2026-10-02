@@ -1,0 +1,73 @@
+---
+// Mentions légales. Source : texte-plaquette-corrige.md, section 9.
+// Léane n'est pas citée ici (accord confirmé le 02/10/2026). Clientèle exclusivement professionnelle :
+// aucun médiateur de la consommation n'est affiché. L'e-mail ne remplace pas une adresse postale.
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site.js';
+---
+
+<Base
+  titre={`Mentions légales | ${site.nom}`}
+  description="Mentions légales du site Les Adresses de l'Ouest : éditeur, directeur de la publication, hébergeur, contact et conception du site."
+  chemin="/mentions-legales/"
+>
+  <article class="page-texte theme-creme">
+    <div class="conteneur">
+      <header class="page-texte__entete">
+        <h1>Mentions légales</h1>
+        <p class="page-texte__intro">Les informations légales du site {site.nom}.</p>
+      </header>
+
+      <div class="page-texte__corps">
+        <nav class="page-texte__sommaire" aria-label="Sur cette page">
+          <ul>
+            <li><a href="#editeur">Éditeur du site</a></li>
+            <li><a href="#publication">Directeur de la publication</a></li>
+            <li><a href="#hebergeur">Hébergeur</a></li>
+            <li><a href="#conception">Conception du site</a></li>
+            <li><a href="#donnees">Données personnelles</a></li>
+          </ul>
+        </nav>
+
+        <div class="page-texte__texte">
+          <h2 id="editeur">Éditeur du site</h2>
+          <dl>
+            <dt>Nom du projet</dt>
+            <dd>{site.nom}</dd>
+            <dt>Éditeur</dt>
+            <dd>Louison Dumas, entrepreneur individuel (micro-entrepreneur)</dd>
+            <dt>SIRET</dt>
+            <dd>101 115 624 00013</dd>
+            <dt>TVA</dt>
+            <dd>TVA non applicable, art. 293 B du CGI (franchise en base)</dd>
+            <dt>Adresse professionnelle</dt>
+            <dd><span class="a-confirmer">[À CONFIRMER : adresse professionnelle]</span></dd>
+            <dt>E-mail</dt>
+            <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+            <dt>Téléphone</dt>
+            <dd><a href={`tel:${site.telephone.lien}`}>{site.telephone.affiche}</a></dd>
+          </dl>
+
+          <h2 id="publication">Directeur de la publication</h2>
+          <p>Louison Dumas.</p>
+
+          <h2 id="hebergeur">Hébergeur</h2>
+          <p>Cloudflare, Inc., 101 Townsend Street, San Francisco, CA 94107, États-Unis.</p>
+
+          <h2 id="conception">Conception du site</h2>
+          <p>
+            <a href={site.conception.url} rel="noopener" referrerpolicy="no-referrer">{site.conception.nom}</a>.
+          </p>
+
+          <h2 id="donnees">Données personnelles</h2>
+          <p>
+            Ce que le site fait de vos données, et ce que collecte le formulaire de contact, est expliqué dans la
+            <a href="/confidentialite/">politique de confidentialité</a>.
+          </p>
+
+          <p class="page-texte__retour"><a href="/">Retour à l'accueil</a></p>
+        </div>
+      </div>
+    </div>
+  </article>
+</Base>

@@ -1,0 +1,90 @@
+---
+// Politique de confidentialité.
+// Vérifié dans le code (voir docs/A-VALIDER.md) : le site ne dépose aucun cookie, ne mesure rien et
+// ne charge aucune ressource chez un tiers. Les demandes passent par un Google Forms ouvert dans un autre onglet.
+// Les durées de conservation ne sont pas confirmées : marqueur visible, rien n'est inventé.
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site.js';
+---
+
+<Base
+  titre={`Politique de confidentialité | ${site.nom}`}
+  description="Ce que fait le site Les Adresses de l'Ouest de vos données : aucun cookie, aucune mesure d'audience, et ce que collecte le formulaire de contact de Google."
+  chemin="/confidentialite/"
+>
+  <article class="page-texte theme-creme">
+    <div class="conteneur">
+      <header class="page-texte__entete">
+        <h1>Politique de confidentialité</h1>
+        <p class="page-texte__intro">Ce que ce site fait, et ne fait pas, de vos données.</p>
+      </header>
+
+      <div class="page-texte__corps">
+        <nav class="page-texte__sommaire" aria-label="Sur cette page">
+          <ul>
+            <li><a href="#site">Ce site</a></li>
+            <li><a href="#formulaire">Le formulaire de contact</a></li>
+            <li><a href="#conservation">Durée de conservation</a></li>
+            <li><a href="#droits">Vos droits</a></li>
+            <li><a href="#liens">Liens vers d'autres sites</a></li>
+          </ul>
+        </nav>
+
+        <div class="page-texte__texte">
+          <h2 id="site">Ce site</h2>
+          <p>
+            Ce site ne dépose aucun cookie et ne mesure rien : il n'y a ni statistiques de visite, ni publicité, ni
+            traceur. Aucune ressource n'est chargée depuis un service extérieur : les polices de caractères et les
+            images sont hébergées sur le site lui-même.
+          </p>
+
+          <h2 id="formulaire">Le formulaire de contact</h2>
+          <p>
+            Le bouton « {site.boutonFormulaire} » ouvre, dans un nouvel onglet, un formulaire intitulé
+            « Construisons ensemble votre communication ». Ce formulaire est un service de Google (Google Forms) : il
+            n'est pas intégré à ce site, et Google héberge les réponses. Voici ce qu'il collecte :
+          </p>
+          <ul>
+            <li>votre identité et vos coordonnées : nom, prénom, téléphone, e-mail ;</li>
+            <li>le nom de votre entreprise ;</li>
+            <li>
+              des informations sur votre activité et votre communication actuelle : supports utilisés, fréquence de
+              publication, difficultés, objectifs, clientèle visée ;
+            </li>
+            <li>le niveau d'accompagnement et les services souhaités ;</li>
+            <li>les photos et vidéos déjà disponibles ;</li>
+            <li>le temps et le budget mensuel envisagés, et la date de démarrage souhaitée ;</li>
+            <li>votre autorisation d'être recontacté.</li>
+          </ul>
+          <p>
+            Ces informations servent à vous recontacter et à comprendre votre projet. Pour ce que Google fait de ces
+            données, consultez sa
+            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" referrerpolicy="no-referrer"
+              >politique de confidentialité<span class="sr-only"> (s'ouvre dans un nouvel onglet)</span></a
+            >.
+          </p>
+
+          <h2 id="conservation">Durée de conservation</h2>
+          <p><span class="a-confirmer">[À CONFIRMER : durées de conservation]</span></p>
+
+          <h2 id="droits">Vos droits</h2>
+          <p>
+            Vous pouvez demander l'accès aux informations vous concernant, ou leur effacement, en écrivant à
+            <a href={`mailto:${site.email}`}>{site.email}</a>. Vous pouvez aussi adresser une réclamation à la CNIL
+            (<a href="https://www.cnil.fr" target="_blank" rel="noopener" referrerpolicy="no-referrer"
+              >cnil.fr<span class="sr-only"> (s'ouvre dans un nouvel onglet)</span></a
+            >).
+          </p>
+
+          <h2 id="liens">Liens vers d'autres sites</h2>
+          <p>
+            Les liens vers Instagram et Facebook, en bas de chaque page, mènent à des services qui appliquent leurs
+            propres règles de confidentialité.
+          </p>
+
+          <p class="page-texte__retour"><a href="/">Retour à l'accueil</a></p>
+        </div>
+      </div>
+    </div>
+  </article>
+</Base>

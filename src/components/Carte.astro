@@ -110,7 +110,7 @@ const noms = fond.principales.map((c) => c.nom).join(', ');
             const nomAccessible = g.unique
               ? `${premier.nom}, ${premier.commune}`
               : `${g.lieux.length} adresses : ${g.lieux.map((l) => `${l.nom} (${l.commune})`).join(', ')}`;
-            const dessous = g.haut < 55;
+            const dessous = g.haut < 50;
             return (
               <>
                 <button
@@ -180,31 +180,28 @@ const noms = fond.principales.map((c) => c.nom).join(', ');
   {
     groupes.length > 0 && (
       <script is:inline>
-        {`// Fiche d'un pin : s'ouvre au clic, au toucher ou au clavier ; Échap ou un clic ailleurs la ferme.
-(function () {
-  var pins = document.querySelectorAll('[data-carte] .pin');
-  function fermer() {
-    pins.forEach(function (p) {
-      p.setAttribute('aria-expanded', 'false');
-      document.getElementById(p.getAttribute('aria-controls')).hidden = true;
-    });
-  }
-  pins.forEach(function (p) {
-    p.addEventListener('click', function () {
-      var fiche = document.getElementById(p.getAttribute('aria-controls'));
-      var ouvrir = fiche.hidden;
-      fermer();
-      if (ouvrir) { fiche.hidden = false; p.setAttribute('aria-expanded', 'true'); }
-    });
-  });
-  document.addEventListener('click', function (e) { if (!e.target.closest('.pin, .fiche')) fermer(); });
-  document.addEventListener('keydown', function (e) {
-    if (e.key !== 'Escape') return;
-    var ouvert = document.querySelector('[data-carte] .pin[aria-expanded="true"]');
-    fermer();
-    if (ouvert) ouvert.focus();
-  });
-})();`}
+        // Fiche d'un pin : s'ouvre au clic, au toucher ou au clavier ; Échap ou un clic ailleurs la ferme.
+        (function () {
+          var pins = document.querySelectorAll('[data-carte] .pin');
+          function fermer() {
+            pins.forEach(function (p) { p.setAttribute('aria-expanded', 'false'); document.getElementById(p.getAttribute('aria-controls')).hidden = true; });
+          }
+          pins.forEach(function (p) {
+            p.addEventListener('click', function () {
+              var fiche = document.getElementById(p.getAttribute('aria-controls'));
+              var ouvrir = fiche.hidden;
+              fermer();
+              if (ouvrir) { fiche.hidden = false; p.setAttribute('aria-expanded', 'true'); }
+            });
+          });
+          document.addEventListener('click', function (e) { if (!e.target.closest('.pin, .fiche')) fermer(); });
+          document.addEventListener('keydown', function (e) {
+            if (e.key !== 'Escape') return;
+            var ouvert = document.querySelector('[data-carte] .pin[aria-expanded="true"]');
+            fermer();
+            if (ouvert) ouvert.focus();
+          });
+        })();
       </script>
     )
   }
