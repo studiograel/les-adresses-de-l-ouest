@@ -11,7 +11,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  scroll-padding-top: calc(var(--hauteur-entete) + var(--sp-4));
+  scroll-padding-top: var(--sp-5);
   /* Barre de défilement aux couleurs du site */
   scrollbar-color: var(--marine) var(--creme);
 }
@@ -26,7 +26,7 @@ body {
   margin: 0;
   min-height: 100dvh;
   background: var(--creme);
-  color: var(--marine);
+  color: var(--texte);
   font-family: var(--police-texte);
   font-size: var(--fs-3);
   line-height: var(--lh-corps);
@@ -53,6 +53,7 @@ img {
   height: auto;
 }
 
+/* Titres de presse : Playfair Display, gras, interligne serré, sans majuscules forcées */
 h1,
 h2,
 h3,
@@ -61,9 +62,8 @@ h4 {
   font-family: var(--police-titre);
   font-weight: 700;
   line-height: var(--lh-titre);
-  letter-spacing: 0.005em;
-  text-transform: uppercase;
   text-wrap: balance;
+  overflow-wrap: anywhere; /* un long mot ne fait jamais déborder la page, même si le texte est agrandi à 200 % */
 }
 
 p {
@@ -109,22 +109,15 @@ b {
   color: var(--creme);
 }
 
-.theme-marine ::selection,
-.theme-encre ::selection {
+.theme-marine ::selection {
   background: var(--creme);
   color: var(--marine);
-}
-
-.theme-orange ::selection {
-  background: var(--encre);
-  color: var(--creme);
 }
 
 /* Focus clavier toujours visible : un anneau épais qui change de couleur avec le fond */
 :focus-visible {
   outline: 3px solid var(--anneau, var(--marine));
   outline-offset: 3px;
-  border-radius: var(--rayon);
 }
 
 :focus:not(:focus-visible) {
@@ -152,10 +145,9 @@ b {
   z-index: 100;
   padding: var(--sp-3) var(--sp-5);
   background: var(--creme);
-  color: var(--marine);
-  font-family: var(--police-titre);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  color: var(--encre);
+  font: 600 var(--fs-2) / 1.2 var(--police-texte);
+  letter-spacing: 0.04em;
   text-decoration: none;
   border: 2px solid var(--marine);
   transform: translateY(-200%);
@@ -177,15 +169,13 @@ b {
   padding: 0.1em 0.4em;
   background: var(--orange);
   color: var(--encre);
-  font-family: var(--police-titre);
-  font-size: 0.95em;
-  letter-spacing: 0.02em;
-  text-transform: none;
+  font: 700 0.9em / 1.6 var(--police-texte);
+  letter-spacing: 0.01em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
 
 /* MOUVEMENT : règle de tout le site.
-   Les transitions et animations ne sont écrites que dans des blocs
+   Seuls le survol et le focus bougent, et les transitions ne sont écrites que dans des blocs
    « @media (prefers-reduced-motion: no-preference) ». Pour les personnes qui demandent moins de mouvement,
-   rien ne glisse ni ne se dessine, mais chaque état (survol, focus, menu ouvert, trait déjà tracé) reste bien visible. */
+   rien ne glisse, mais chaque état (survol, focus, menu ouvert) reste bien visible. */

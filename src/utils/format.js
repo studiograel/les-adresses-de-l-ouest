@@ -26,7 +26,7 @@ export function euros(n) {
 }
 
 /**
- * Typographie française : espace insécable avant « : ; ! ? % € » » et après « « ».
+ * Typographie française : espace insécable avant « : ; ! ? % € » » et après « « », apostrophe de typographe.
  * Évite qu'un deux-points ou un point d'interrogation se retrouve seul au début d'une ligne.
  * Ne touche que le texte des pages (jamais les balises, ni le contenu des scripts).
  */
@@ -41,7 +41,10 @@ export function typographieFrancaise(html) {
         return morceau;
       }
       if (protege) return morceau;
-      return morceau.replace(/ ([:;!?»%€])/g, `${ESPACE_INSECABLE}$1`).replace(/(«) /g, `$1${ESPACE_INSECABLE}`);
+      return morceau
+        .replace(/ ([:;!?»%€])/g, `${ESPACE_INSECABLE}$1`)
+        .replace(/(«) /g, `$1${ESPACE_INSECABLE}`)
+        .replace(/(\p{L})'(\p{L})/gu, '$1’$2'); // apostrophe de typographe
     })
     .join('');
 }

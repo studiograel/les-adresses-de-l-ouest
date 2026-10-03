@@ -56,14 +56,13 @@ const contenu = typographieFrancaise(await Astro.slots.render('default'));
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
-    <Font cssVariable="--police-titre" preload />
-    <Font cssVariable="--police-texte" preload={[{ style: 'normal' }]} />
+    <Font cssVariable="--police-titre" preload={[{ style: 'normal' }]} />
+    <Font cssVariable="--police-texte" preload />
 
     {donneesStructurees && <script type="application/ld+json" set:html={JSON.stringify(donneesStructurees)} />}
   </head>
   <body>
     <a class="lien-evitement" href="#contenu">Aller au contenu</a>
-    <div class="progression" aria-hidden="true"></div>
     <Entete />
     <main id="contenu" set:html={contenu} />
     <Pied />

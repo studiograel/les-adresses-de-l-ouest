@@ -1,13 +1,11 @@
 ---
-// Page d'accueil : une longue page sobre, dans l'ordre demandé.
+// Page d'accueil : la une d'un journal de proximité. Une longue page sobre, dans l'ordre demandé.
 // Tous les chiffres (prix, abonnés, dates, durées) viennent de src/data/ : rien n'est écrit en dur ici.
-import { Image } from 'astro:assets';
-import logo from '../assets/logo.png';
-import Base from '../layouts/Base.astro';
+// Rien n'est inventé : pas d'article, pas de signature de journaliste, pas de numéro d'édition, pas de date de « une ».
 import Bouton from '../components/Bouton.astro';
-import Icone from '../components/Icone.astro';
 import Photo from '../components/Photo.astro';
 import Carte from '../components/Carte.astro';
+import Base from '../layouts/Base.astro';
 import { site } from '../data/site.js';
 import { offre } from '../data/offre.js';
 import { chiffres } from '../data/chiffres.js';
@@ -46,7 +44,7 @@ const donneesStructurees = {
   sameAs: [site.reseaux.instagram, site.reseaux.facebook],
 };
 
-const fraseFormules = accompagnement.formules;
+const formules = accompagnement.formules;
 ---
 
 <Base
@@ -55,67 +53,41 @@ const fraseFormules = accompagnement.formules;
   chemin="/"
   donneesStructurees={donneesStructurees}
 >
-  <!-- 1. EN-TÊTE ET HÉROS -->
-  <section class:list={['hero', 'theme-marine', 'trame', { 'hero--photo': photoHero }]} aria-labelledby="titre-principal">
-    <div class="conteneur">
-      <div class="hero__journal">
-        <p>Média local · Ouest lyonnais</p>
-        <ul class="hero__communes">
-          {site.communes.map((commune) => <li>{commune}</li>)}
-        </ul>
+  <!-- 1. LA UNE : titre, chapeau, filet, bouton unique -->
+  <section class:list={['une', { 'une--photo': photoHero }]} aria-labelledby="titre-principal">
+    <div class="conteneur une__grille">
+      <div>
+        <h1 id="titre-principal">
+          Faites découvrir votre adresse dans l'<span class="surligne">Ouest lyonnais</span>
+        </h1>
+        <p class="chapeau">{site.concept}</p>
+        <hr class="filet-fin" />
+        <div class="une__action"><Bouton /></div>
       </div>
 
-      <div class="hero__corps">
-        <div class="hero__texte">
-          <h1 id="titre-principal" class="hero__titre">
-            Faites découvrir votre adresse dans l'<span class="surligne">Ouest lyonnais</span>
-          </h1>
-          <p class="chapo hero__chapo">{site.concept}</p>
-          <Bouton />
-        </div>
-
-        <div class="hero__lateral">
-          {photoHero && <Photo photo={photoHero} priorite class="hero__photo" sizes="(min-width: 62rem) 40vw, 100vw" />}
-          <div class="affiche eclat">
-            <div>
-              <span class="trait" aria-hidden="true"></span>
-              <p class="affiche__texte">
-                {site.signature.replace("l'Ouest lyonnais", '')}<em>l'Ouest lyonnais</em>
-              </p>
-            </div>
-            <Image
-              class="affiche__logo"
-              src={logo}
-              alt=""
-              width={176}
-              height={176}
-              densities={[1, 2]}
-              format="webp"
-              loading="eager"
-            />
-          </div>
-        </div>
+      <div class="une__lateral">
+        {photoHero && <Photo photo={photoHero} priorite class="une__photo" sizes="(min-width: 62rem) 40vw, 100vw" />}
+        <p class="citation">Des vidéos incarnées, immersives et divertissantes.</p>
       </div>
     </div>
   </section>
 
   <!-- 2. LE CONCEPT ET LE DUO -->
-  <section id="concept" class="section theme-creme concept" aria-labelledby="titre-concept">
-    <div class="conteneur concept__grille">
-      <div class="concept__entete">
+  <section id="concept" class:list={['rubrique', 'concept', { 'concept--photo': photoConcept }]} aria-labelledby="titre-concept">
+    <div class="conteneur">
+      <header class="rubrique__entete">
+        <p class="surtitre">Le projet</p>
         <h2 id="titre-concept">Un projet de communication locale</h2>
-        <p class="concept__citation">Des vidéos incarnées, immersives et divertissantes.</p>
-        {photoConcept && <Photo photo={photoConcept} class="concept__photo" />}
-      </div>
+      </header>
 
       <div class="concept__corps">
-        <p class="chapo concept__chapo">
-          Les Adresses de l'Ouest est un projet de communication locale né d'un constat simple : les commerces et
-          petites entreprises de l'Ouest lyonnais méritent plus de visibilité, mais manquent souvent de temps ou de
-          ressources pour le faire efficacement.
-        </p>
-
-        <div class="concept__colonnes">
+        {photoConcept && <Photo photo={photoConcept} class="concept__photo" />}
+        <div class="colonnes">
+          <p class="lettrine">
+            Les Adresses de l'Ouest est un projet de communication locale né d'un constat simple : les commerces et
+            petites entreprises de l'Ouest lyonnais méritent plus de visibilité, mais manquent souvent de temps ou de
+            ressources pour le faire efficacement.
+          </p>
           <p>
             Ce compte Instagram (et la page Facebook associée) a pour vocation de centraliser et de mettre en lumière
             les acteurs de notre territoire : commerçants de proximité, artisans, indépendants, agences de service… Tous
@@ -126,140 +98,135 @@ const fraseFormules = accompagnement.formules;
             bienveillant, ancré dans la réalité des commerces du secteur.
           </p>
         </div>
+      </div>
 
-        <div class="duo">
-          <p class="duo__intro">
-            Derrière ce projet, un duo complémentaire, tous deux passionnés par l'Ouest lyonnais.
-          </p>
-          <ul class="duo__liste">
-            <li class="duo__personne">
-              <h3>Léane</h3>
-              <p class="duo__role">Community manager indépendante</p>
-              <p>Pilote la stratégie, réalise les visuels et anime le compte au quotidien.</p>
-            </li>
-            <li class="duo__personne">
-              <h3>Louison</h3>
-              <p class="duo__role">Vidéaste et commercial</p>
-              <p>Sillonne le terrain à la rencontre des commerçants et capture des images qui subliment votre activité.</p>
-            </li>
-          </ul>
-          <p class="duo__ensemble">
-            Ensemble, ils proposent des visuels de qualité, cohérents avec les standards des réseaux sociaux.
-          </p>
-        </div>
+      <div class="duo">
+        <p class="duo__intro">Derrière ce projet, un duo complémentaire, tous deux passionnés par l'Ouest lyonnais.</p>
+        <ul class="duo__liste">
+          <li class="duo__personne">
+            <h3>Léane</h3>
+            <p class="duo__role petites-capitales">Community manager indépendante</p>
+            <p>Pilote la stratégie, réalise les visuels et anime le compte au quotidien.</p>
+          </li>
+          <li class="duo__personne">
+            <h3>Louison</h3>
+            <p class="duo__role petites-capitales">Vidéaste et commercial</p>
+            <p>Sillonne le terrain à la rencontre des commerçants et capture des images qui subliment votre activité.</p>
+          </li>
+        </ul>
+        <p class="duo__ensemble">
+          Ensemble, ils proposent des visuels de qualité, cohérents avec les standards des réseaux sociaux.
+        </p>
       </div>
     </div>
   </section>
 
   <!-- 3. POURQUOI APPARAÎTRE SUR CE MÉDIA -->
-  <section id="pourquoi" class="section theme-papier pourquoi" aria-labelledby="titre-pourquoi">
-    <div class="conteneur pourquoi__grille">
-      <div class="pourquoi__entete">
+  <section id="pourquoi" class="rubrique pourquoi" aria-labelledby="titre-pourquoi">
+    <div class="conteneur">
+      <header class="rubrique__entete">
+        <p class="surtitre">Pourquoi</p>
         <h2 id="titre-pourquoi">Pourquoi apparaître sur ce média</h2>
-        <p class="pourquoi__appel">Rejoignez le projet et devenez l'une des meilleures adresses de l'Ouest lyonnais !</p>
+      </header>
+
+      <div class="colonnes">
+        <article class="raison">
+          <h3>Une visibilité ciblée et géolocalisée</h3>
+          <p>
+            Votre entreprise sera mise en avant auprès d'une communauté locale active, composée d'habitants, de futurs
+            clients et de professionnels de l'Ouest lyonnais. Vous gagnez en notoriété sans avoir à gérer vous-même vos
+            réseaux sociaux.
+          </p>
+        </article>
+        <article class="raison">
+          <h3>Une image professionnelle sur Instagram et Facebook</h3>
+          <p>
+            Chaque contenu publié est soigneusement conçu, avec une esthétique cohérente, des visuels qualitatifs, une
+            mise en forme soignée et une tonalité adaptée à votre activité. Résultat : une présence digitale qui
+            inspire confiance.
+          </p>
+        </article>
+        <article class="raison">
+          <h3>Des contenus pensés pour valoriser votre activité</h3>
+          <p>
+            Portraits, zooms sur vos produits, photos d'ambiance, témoignages clients, actualités… Le compte adopte un
+            format éditorial structuré, varié et valorisant. Vous bénéficiez d'un accompagnement éditorial et visuel,
+            sans avoir à produire de contenu vous-même.
+          </p>
+        </article>
+        <article class="raison">
+          <h3>Un projet 100 % dédié à l'Ouest lyonnais</h3>
+          <p>
+            Ce compte ne mélange pas tous les types de contenus ni toutes les zones géographiques : il est exclusivement
+            centré sur notre territoire. Cela renforce la pertinence des publications et crée un véritable ancrage local
+            autour des valeurs de proximité, de qualité et d'authenticité.
+          </p>
+        </article>
       </div>
-      <ul class="raisons">
-        <li class="raison">
-          <Icone nom="repere" />
-          <div>
-            <h3>Une visibilité ciblée et géolocalisée</h3>
-            <p>
-              Votre entreprise sera mise en avant auprès d'une communauté locale active, composée d'habitants, de futurs
-              clients et de professionnels de l'Ouest lyonnais. Vous gagnez en notoriété sans avoir à gérer vous-même vos
-              réseaux sociaux.
-            </p>
-          </div>
-        </li>
-        <li class="raison">
-          <Icone nom="ecran" />
-          <div>
-            <h3>Une image professionnelle sur Instagram et Facebook</h3>
-            <p>
-              Chaque contenu publié est soigneusement conçu, avec une esthétique cohérente, des visuels qualitatifs, une
-              mise en forme soignée et une tonalité adaptée à votre activité. Résultat : une présence digitale qui
-              inspire confiance.
-            </p>
-          </div>
-        </li>
-        <li class="raison">
-          <Icone nom="lecture" />
-          <div>
-            <h3>Des contenus pensés pour valoriser votre activité</h3>
-            <p>
-              Portraits, zooms sur vos produits, photos d'ambiance, témoignages clients, actualités… Le compte adopte un
-              format éditorial structuré, varié et valorisant. Vous bénéficiez d'un accompagnement éditorial et visuel,
-              sans avoir à produire de contenu vous-même.
-            </p>
-          </div>
-        </li>
-        <li class="raison">
-          <Icone nom="boussole" />
-          <div>
-            <h3>Un projet 100 % dédié à l'Ouest lyonnais</h3>
-            <p>
-              Ce compte ne mélange pas tous les types de contenus ni toutes les zones géographiques : il est exclusivement
-              centré sur notre territoire. Cela renforce la pertinence des publications et crée un véritable ancrage local
-              autour des valeurs de proximité, de qualité et d'authenticité.
-            </p>
-          </div>
-        </li>
-      </ul>
+
+      <p class="invitation">Rejoignez le projet et devenez l'une des meilleures adresses de l'Ouest lyonnais !</p>
     </div>
   </section>
 
-  <!-- 4. NOTRE OFFRE POUR DÉMARRER -->
-  <section id="offre" class="section theme-orange offre" aria-labelledby="titre-offre">
+  <!-- 4. NOTRE OFFRE POUR DÉMARRER : un encadré de petite annonce -->
+  <section id="offre" class="rubrique offre" aria-labelledby="titre-offre">
     <div class="conteneur">
+      <header class="rubrique__entete">
+        <p class="surtitre">L'offre</p>
+        <h2 id="titre-offre">{offre.titre}</h2>
+      </header>
+
       {photoOffre && <Photo photo={photoOffre} class="offre__photo" sizes="100vw" />}
-      <div class="offre__grille">
-        <div class="offre__texte">
-          <h2 id="titre-offre">{offre.titre}</h2>
-          <p class="offre__accroche">{offre.accroche}</p>
+
+      <div class="annonce">
+        <div class="annonce__texte">
+          <p class="chapeau">{offre.accroche}</p>
           <ul class="inclus">
             <li>
-              <Icone nom="horloge" />
-              <p><strong class="inclus__valeur">{offre.inclus[0].valeur}</strong> {offre.inclus[0].texte}</p>
+              <strong class="inclus__valeur">{offre.inclus[0].valeur}</strong>
+              <span>{offre.inclus[0].texte}</span>
             </li>
             <li>
-              <Icone nom="camera" />
-              <p><strong class="inclus__valeur">{offre.inclus[1].valeur}</strong> {offre.inclus[1].texte}</p>
+              <strong class="inclus__valeur">{offre.inclus[1].valeur}</strong>
+              <span>{offre.inclus[1].texte}</span>
             </li>
           </ul>
-          <p class="offre__note">{offre.note}</p>
+          <p class="annonce__note">{offre.note}</p>
         </div>
 
-        <div class="offre__prix">
-          <div class="billet" id="bloc-prix" data-fin={offre.finOffre} data-apres={offre.apresOffre}>
-            <div class="billet__interieur">
-              {
-                offreActive ? (
-                  <>
-                    <p class="billet__prix">
-                      <span class="sr-only">Prix : </span>
-                      {euros(offre.prix)}
-                    </p>
-                    <p class="billet__libelle">{offre.libellePrix}</p>
-                    <p class="billet__offre">
-                      {offre.libelleOffre} jusqu'au {dateLongue(offre.finOffre)}
-                    </p>
-                    <p class="billet__tva">{offre.tva}</p>
-                  </>
-                ) : (
-                  <p class="billet__prix billet__prix--demande">{offre.apresOffre}</p>
-                )
-              }
-            </div>
+        <div class="annonce__prix">
+          <div class="prix" id="bloc-prix" data-fin={offre.finOffre} data-apres={offre.apresOffre}>
+            {
+              offreActive ? (
+                <>
+                  <p class="prix__montant">
+                    <span class="sr-only">Prix : </span>
+                    {euros(offre.prix)}
+                  </p>
+                  <p class="prix__libelle">{offre.libellePrix}</p>
+                  <p class="prix__offre">
+                    {offre.libelleOffre} jusqu'au {dateLongue(offre.finOffre)}
+                  </p>
+                  <p class="prix__tva">{offre.tva}</p>
+                </>
+              ) : (
+                <p class="prix__montant prix__montant--demande">{offre.apresOffre}</p>
+              )
+            }
           </div>
-          <div class="offre__action"><Bouton /></div>
+          <div class="annonce__action"><Bouton /></div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- 5. LE PROCESSUS EN ÉTAPES (l'étape 2 est un formulaire envoyé par l'équipe : aucun lien) -->
-  <section id="processus" class="section theme-creme processus" aria-labelledby="titre-processus">
+  <section id="processus" class="rubrique processus" aria-labelledby="titre-processus">
     <div class="conteneur">
-      <h2 id="titre-processus">Après la signature : le processus en {processus.length} étapes</h2>
+      <header class="rubrique__entete">
+        <p class="surtitre">Le processus</p>
+        <h2 id="titre-processus">Après la signature : le processus en {processus.length} étapes</h2>
+      </header>
       <ol class="etapes">
         {
           processus.map((etape) => (
@@ -273,45 +240,48 @@ const fraseFormules = accompagnement.formules;
     </div>
   </section>
 
-  <!-- 6. CHIFFRES, AVEC LEUR DATE -->
-  <section id="chiffres" class="section theme-marine chiffres trame" aria-labelledby="titre-chiffres">
-    <div class="conteneur chiffres__grille">
-      <div class="chiffres__entete">
+  <!-- 6. EN CHIFFRES, AVEC LEUR DATE -->
+  <section id="chiffres" class="rubrique chiffres" aria-labelledby="titre-chiffres">
+    <div class="conteneur">
+      <header class="rubrique__entete">
+        <p class="surtitre">Les chiffres</p>
         <h2 id="titre-chiffres">Le compte en chiffres</h2>
-        <p class="chiffres__source">Chiffres communiqués par {chiffres.source} au {dateLongue(chiffres.date)}</p>
-      </div>
-      <div>
-        <dl class="tableau">
-          <div class="cellule">
-            <dt>abonnés Instagram</dt>
-            <dd>{nombre(chiffres.instagram.abonnes)}</dd>
-          </div>
-          <div class="cellule">
-            <dt>abonnés Facebook</dt>
-            <dd>{nombre(chiffres.facebook.abonnes)}</dd>
-          </div>
-          <div class="cellule">
-            <dt>vues Instagram en un mois</dt>
-            <dd>{nombre(chiffres.instagram.vuesParMois)}</dd>
-          </div>
-          <div class="cellule">
-            <dt>vues Facebook en un mois</dt>
-            <dd>{nombre(chiffres.facebook.vuesParMois)}</dd>
-          </div>
-        </dl>
-        <p class="chiffres__note">
-          Une même personne peut suivre les deux pages : les abonnés Instagram et Facebook ne sont pas additionnés.
-        </p>
-      </div>
+      </header>
+
+      <dl class="chiffres__grille">
+        <div class="chiffre">
+          <dt class="petites-capitales">Abonnés Instagram</dt>
+          <dd>{nombre(chiffres.instagram.abonnes)}</dd>
+        </div>
+        <div class="chiffre">
+          <dt class="petites-capitales">Abonnés Facebook</dt>
+          <dd>{nombre(chiffres.facebook.abonnes)}</dd>
+        </div>
+        <div class="chiffre">
+          <dt class="petites-capitales">Vues Instagram en un mois</dt>
+          <dd>{nombre(chiffres.instagram.vuesParMois)}</dd>
+        </div>
+        <div class="chiffre">
+          <dt class="petites-capitales">Vues Facebook en un mois</dt>
+          <dd>{nombre(chiffres.facebook.vuesParMois)}</dd>
+        </div>
+      </dl>
+      <p class="chiffres__source">Chiffres communiqués par {chiffres.source} au {dateLongue(chiffres.date)}</p>
+      <p class="chiffres__note">
+        Une même personne peut suivre les deux pages : les abonnés Instagram et Facebook ne sont pas additionnés.
+      </p>
     </div>
   </section>
 
   <!-- GALERIE : n'apparaît que si des photos ont été validées dans src/data/photos.js -->
   {
     galerie.length > 0 && (
-      <section id="galerie" class="section theme-creme galerie" aria-labelledby="titre-galerie">
+      <section id="galerie" class="rubrique galerie" aria-labelledby="titre-galerie">
         <div class="conteneur">
-          <h2 id="titre-galerie">En images</h2>
+          <header class="rubrique__entete">
+            <p class="surtitre">Galerie</p>
+            <h2 id="titre-galerie">En images</h2>
+          </header>
           <ul class="galerie__liste">
             {galerie.map((photo) => (
               <li>
@@ -324,42 +294,43 @@ const fraseFormules = accompagnement.formules;
     )
   }
 
-  <!-- 7. LA CARTE DES ADRESSES -->
+  <!-- 7. LA CARTE DES LIEUX -->
   <Carte />
 
-  <!-- 8. POUR ALLER PLUS LOIN : un service complémentaire, distinct de l'offre vidéo -->
-  <section id="accompagnement" class="section theme-papier accompagnement" aria-labelledby="titre-accompagnement">
+  <!-- 8. POUR ALLER PLUS LOIN : une rubrique à part, distincte de l'offre vidéo -->
+  <section id="accompagnement" class="rubrique accompagnement theme-voile" aria-labelledby="titre-accompagnement">
     <div class="conteneur">
-      <div class="encart">
+      <header class="rubrique__entete">
+        <p class="surtitre">Aller plus loin</p>
         <h2 id="titre-accompagnement">{accompagnement.titre}</h2>
-        <p class="chapo">{accompagnement.intro}</p>
-        <div class="encart__corps">
-          <div>
-            <h3 class="encart__sous-titre">Prestations possibles</h3>
-            <ul class="prestations">
-              {accompagnement.prestations.map((p) => <li>{p}</li>)}
-            </ul>
-          </div>
-          <div>
-            <p class="formules">
-              Vous pouvez <strong>{fraseFormules[0]}</strong>, <strong>{fraseFormules[1]}</strong> ou <strong
-                >{fraseFormules[2]}</strong
-              >.
-            </p>
-            <p class="tarif">{accompagnement.tarif}</p>
-          </div>
+      </header>
+
+      <p class="chapeau">{accompagnement.intro}</p>
+
+      <div class="accompagnement__corps">
+        <div>
+          <h3 class="accompagnement__sous-titre petites-capitales">Prestations possibles</h3>
+          <ul class="prestations">
+            {accompagnement.prestations.map((p) => <li>{p}</li>)}
+          </ul>
+        </div>
+        <div>
+          <p class="formules">
+            Vous pouvez <strong>{formules[0]}</strong>, <strong>{formules[1]}</strong> ou <strong>{formules[2]}</strong>.
+          </p>
+          <p class="tarif">{accompagnement.tarif}</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- APPEL À L'ACTION UNIQUE -->
-  <section class="section theme-marine appel trame" aria-labelledby="titre-appel">
+  <section class="rubrique appel" aria-labelledby="titre-appel">
     <div class="conteneur appel__grille">
       <h2 id="titre-appel">{site.questionFormulaire}</h2>
       <div class="appel__texte">
-        <p class="chapo">{site.boutonFormulaire} : temps nécessaire, {site.dureeFormulaire}.</p>
-        <div class="appel__action"><Bouton /></div>
+        <p class="chapeau">{site.boutonFormulaire} : temps nécessaire, {site.dureeFormulaire}.</p>
+        <div><Bouton /></div>
       </div>
     </div>
   </section>
@@ -373,9 +344,9 @@ const fraseFormules = accompagnement.formules;
       var aujourdhui = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Paris' }).format(new Date());
       if (aujourdhui > bloc.getAttribute('data-fin')) {
         var p = document.createElement('p');
-        p.className = 'billet__prix billet__prix--demande';
+        p.className = 'prix__montant prix__montant--demande';
         p.textContent = bloc.getAttribute('data-apres');
-        bloc.querySelector('.billet__interieur').replaceChildren(p);
+        bloc.replaceChildren(p);
       }
     })();
   </script>

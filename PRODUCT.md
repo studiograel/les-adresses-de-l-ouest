@@ -38,7 +38,7 @@ Site statique Astro hébergé chez Cloudflare. Un seul appel à l'action : le bo
 
 ## Brand Commitments
 
-Logo : rond crème au liseré orange, texte en bleu marine, silhouettes d'immeubles lyonnais en orange (ne pas redessiner). Couleurs relevées sur le fichier du logo. Polices de la plaquette : Sunborn Sans One (titres, licence web non confirmée, remplacée par une police libre proche) et Playfair Display. Univers voulu : journal / magazine local.
+Logo : rond crème au liseré orange, texte en bleu marine, silhouettes d'immeubles lyonnais en orange (ne pas redessiner). Couleurs relevées sur le fichier du logo. Univers voulu (correction du 03/10/2026) : la une d'un journal de proximité moderne, sérieux, chaleureux, imprimé. Ni pastiche vieillot, ni page d'agence. Tout en CSS et en typographie : papier crème, encre bleu marine foncé, filets simples et doubles, colonnes, lettrine. Le pied de page est le seul grand bloc bleu. L'orange reste rare. Polices : Playfair Display (titres, chapeaux, chiffres) et Libre Franklin (texte courant, petites capitales) ; Sunborn Sans One (plaquette) n'a pas de licence web confirmée. Interdits : inventer des articles, titres d'actualité, signatures de journaliste, numéro d'édition, date de « une », citations ou avis ; police gothique ou « vieux journal », texture de papier vieilli, faux pli, bandeau défilant.
 
 ## Evidence on Hand
 
@@ -46,7 +46,7 @@ Logo : rond crème au liseré orange, texte en bleu marine, silhouettes d'immeub
 - Logo : `reference/logo-hd.png` (rond utile de 552 × 552 px).
 - Chiffres communiqués par l'équipe au 2 octobre 2026 (694 et 1 695 abonnés, 220 000 et 235 000 vues en un mois).
 - **Absences à ne pas combler** : aucune photo libre de droits, aucune liste de lieux (`lieux.md`), aucun témoignage, aucun nom de client.
-- `reference/carte-lieux.png` : plan de rues stylisé dont l'origine et les droits ne sont pas confirmés ; non utilisé.
+- `reference/carte-lieux.png` : leur carte (plan de rues bleu sur crème, sans nom de commune ni repère). Droits confirmés oralement par Matteo le 03/10/2026 auprès de Louison et Léane (confirmation écrite à demander). C'est la seule image autorisée sur le site ; version recadrée en WebP sans perte dans `src/assets/carte-lieux.webp`. Les pins se posent à la main, en pourcentage de l'image.
 
 ## Product Principles
 

@@ -1,80 +1,49 @@
 /* =============================================================================
-   COMPOSANTS : barre de progression, en-tête, menu, bouton, icônes, trame, éclat
+   COMPOSANTS : filets, bandeau de titre, rubriques, menu mobile, bouton
    Effets inspirés de Magic UI (bibliothèque de RÉFÉRENCE : rien n'est installé, tout est refait en CSS) :
-     - bouton : « interactive hover button » (un point qui grossit jusqu'à remplir le bouton)
-     - éclat  : « glare hover » (un reflet en biais qui traverse le bloc)
-     - trame  : « dot pattern » (grille de points, ici une trame d'imprimerie)
-     - barre  : « scroll progress » (jauge de lecture, couleurs de la marque, sans dégradé)
+     - bouton : « interactive hover button » (un point qui grossit jusqu'à remplir le bouton, au survol ou au clavier)
+   Aucune image, aucune texture, aucune ombre, aucun dégradé. Seuls le survol et le focus bougent.
    ============================================================================= */
 
-/* ----- Barre de progression de lecture (CSS pur, là où le navigateur sait la faire) ----- */
-.progression {
-  display: none;
+/* ----- Filets de journal ----- */
+.filet-double {
+  block-size: 4px;
+  border-block-start: var(--filet-epais) solid var(--filet-couleur);
+  border-block-end: var(--filet-fin) solid var(--filet-couleur);
 }
 
-@supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .progression {
-      display: block;
-      position: fixed;
-      inset-block-start: 0;
-      inset-inline: 0;
-      z-index: 60;
-      block-size: 4px;
-      background: var(--orange);
-      transform: scaleX(0);
-      transform-origin: left;
-      pointer-events: none;
-      animation: progresser linear both;
-      animation-timeline: scroll(root block);
-    }
-
-    @keyframes progresser {
-      to {
-        transform: scaleX(1);
-      }
-    }
-  }
+.filet-fin {
+  border: 0;
+  border-block-start: var(--filet-fin) solid var(--filet-couleur);
+  margin: 0;
 }
 
-/* ----- Icônes dessinées en ligne : un seul trait, une seule épaisseur ----- */
-.icone {
-  inline-size: 1.5rem;
-  block-size: 1.5rem;
-  flex: none;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.75;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+/* Petites capitales espacées : rubriques, légendes, surtitres */
+.petites-capitales {
+  font: 600 var(--fs-1) / 1.3 var(--police-texte);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 
-/* ----- En-tête collant : le logo ressort sur le fond bleu ----- */
+/* ----- Bandeau de titre (le logo, la devise, le double filet, les rubriques) ----- */
 .entete {
-  position: sticky;
-  inset-block-start: 0;
-  z-index: 50;
-  block-size: var(--hauteur-entete);
-  background: var(--marine);
-  color: var(--creme);
-  --anneau: var(--creme);
-  border-block-end: 1px solid color-mix(in srgb, var(--creme) 20%, transparent);
+  background: var(--creme);
+  color: var(--texte);
 }
 
-.entete__barre {
+.entete__titre {
   display: flex;
+  flex-wrap: wrap; /* quand le texte est très agrandi, la devise passe sous le logo */
   align-items: center;
-  justify-content: space-between;
-  gap: var(--sp-4);
-  block-size: 100%;
+  gap: var(--sp-5);
+  padding-block: var(--sp-5) var(--sp-4);
 }
 
 .entete__logo {
   display: block;
   flex: none;
-  inline-size: 3.5rem;
-  block-size: 3.5rem;
-  border-radius: 50%;
+  inline-size: 5.5rem;
+  block-size: 5.5rem;
 }
 
 .entete__logo img {
@@ -82,172 +51,169 @@
   block-size: 100%;
 }
 
-/* ----- Navigation : menu déroulant sur mobile (popover natif : Échap ferme, clavier OK) ----- */
-.nav[popover] {
-  position: fixed;
-  inset: var(--hauteur-entete) 0 auto 0;
-  inline-size: 100%;
+.entete__devise {
+  flex: 1 1 12rem;
+  min-inline-size: 0;
+}
+
+.entete__signature {
+  margin: 0 0 var(--sp-2);
   max-inline-size: none;
-  max-block-size: calc(100dvh - var(--hauteur-entete));
-  margin: 0;
-  padding: var(--sp-2) var(--gouttiere) var(--sp-6);
-  overflow: auto;
-  background: var(--encre);
-  color: var(--creme);
-  border: 0;
-  border-block-end: 3px solid var(--orange);
-  --anneau: var(--creme);
+  font: italic 400 var(--fs-5) / 1.2 var(--police-titre);
+  font-variant-numeric: lining-nums; /* chiffres alignés (le raccourci « font » les remettrait à l'ancienne) */
 }
 
-.nav__liste {
-  display: grid;
-  inline-size: min(100%, var(--largeur));
-  margin-inline: auto;
+.entete__communes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--sp-3);
+  color: var(--doux);
 }
 
-.nav__lien {
+.entete__communes li {
+  overflow-wrap: anywhere;
+}
+
+.entete__communes li:not(:last-child)::after {
+  content: '·';
+  margin-inline-start: var(--sp-3);
+}
+
+@media (min-width: 48rem) {
+  .entete__titre {
+    gap: var(--sp-6);
+    padding-block: var(--sp-6) var(--sp-5);
+  }
+
+  .entete__logo {
+    inline-size: 7.5rem;
+    block-size: 7.5rem;
+  }
+
+  .entete__signature {
+    font-size: var(--fs-4);
+  }
+}
+
+/* Rubriques : la ligne de navigation du journal (par ancres) */
+.rubriques {
+  --marge-rubrique: var(--sp-4);
+  display: none;
+  border-block-end: var(--filet-fin) solid var(--filet-couleur);
+}
+
+.rubriques__liste {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.rubriques__lien {
   display: flex;
   align-items: center;
-  min-block-size: 3.5rem;
-  font: 700 var(--fs-5) / 1 var(--police-titre);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--creme);
-  border-block-end: 1px solid color-mix(in srgb, var(--creme) 22%, transparent);
-}
-
-.nav__lien:hover,
-.nav__lien:focus-visible {
-  color: var(--orange);
-}
-
-.menu-bouton {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-3);
   min-block-size: var(--zone-tactile);
-  padding: 0 var(--sp-4);
-  background: transparent;
-  border: 2px solid var(--creme);
-  border-radius: var(--rayon);
+  padding-inline: var(--marge-rubrique);
+  color: var(--texte);
+  text-decoration: none;
+  background: linear-gradient(var(--marine), var(--marine)) no-repeat 50% calc(50% + 0.95em) / 0 2px;
+}
+
+.rubriques__liste li + li {
+  border-inline-start: var(--filet-fin) solid color-mix(in srgb, var(--marine) 30%, transparent);
+}
+
+.rubriques__lien:hover,
+.rubriques__lien:focus-visible {
+  background-size: calc(100% - 2 * var(--marge-rubrique)) 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rubriques__lien {
+    transition: background-size var(--t-moyen) var(--ease-sortie);
+  }
+}
+
+/* À partir de la tablette, la ligne de rubriques remplace le menu */
+@media (min-width: 48rem) {
+  .rubriques {
+    display: block;
+  }
+
+  .menu {
+    display: none;
+  }
+}
+
+@media (min-width: 62rem) {
+  .rubriques {
+    --marge-rubrique: var(--sp-5);
+  }
+}
+
+/* Menu mobile : un simple <details>, sans JavaScript */
+.menu {
+  border-block-end: var(--filet-fin) solid var(--filet-couleur);
+}
+
+.menu__bouton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-block-size: var(--zone-tactile);
+  padding: 0 var(--sp-2);
+  list-style: none;
   cursor: pointer;
-  font: 700 var(--fs-1) / 1 var(--police-titre);
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--creme);
 }
 
-.menu-bouton:hover {
-  background: var(--creme);
-  color: var(--marine);
+.menu__bouton::-webkit-details-marker {
+  display: none;
 }
 
-.menu-icone rect {
+.menu__bouton::marker {
+  content: '';
+}
+
+.menu__icone rect {
   fill: currentColor;
   transform-box: fill-box;
   transform-origin: center;
 }
 
-/* Croix quand le menu est ouvert */
-.entete:has(.nav:popover-open) .menu-icone rect:nth-child(1) {
+/* La croix remplace les trois traits quand le menu est ouvert */
+.menu[open] .menu__icone rect:nth-child(1) {
   transform: translateY(6px) rotate(45deg);
 }
 
-.entete:has(.nav:popover-open) .menu-icone rect:nth-child(2) {
+.menu[open] .menu__icone rect:nth-child(2) {
   transform: scaleX(0);
 }
 
-.entete:has(.nav:popover-open) .menu-icone rect:nth-child(3) {
+.menu[open] .menu__icone rect:nth-child(3) {
   transform: translateY(-6px) rotate(-45deg);
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .menu-icone rect {
-    transition:
-      transform var(--t-moyen) var(--ease-sortie);
-  }
-
-  .menu-bouton {
-    transition:
-      background-color var(--t-rapide) ease,
-      color var(--t-rapide) ease;
-  }
-
-  /* Le menu descend et apparaît en douceur */
-  .nav[popover] {
-    opacity: 0;
-    transform: translateY(-0.75rem);
-    transition:
-      opacity var(--t-moyen) var(--ease-sortie),
-      transform var(--t-moyen) var(--ease-sortie),
-      overlay var(--t-moyen) allow-discrete,
-      display var(--t-moyen) allow-discrete;
-  }
-
-  .nav[popover]:popover-open {
-    opacity: 1;
-    transform: none;
-  }
-
-  @starting-style {
-    .nav[popover]:popover-open {
-      opacity: 0;
-      transform: translateY(-0.75rem);
-    }
+  .menu__icone rect {
+    transition: transform var(--t-moyen) var(--ease-sortie);
   }
 }
 
-/* Écran large : le menu devient une simple ligne de liens dans l'en-tête */
-@media (min-width: 62rem) {
-  .menu-bouton {
-    display: none;
-  }
+.menu__liste a {
+  display: flex;
+  align-items: center;
+  min-block-size: 3.25rem;
+  padding-inline: var(--sp-2);
+  border-block-start: var(--filet-fin) solid color-mix(in srgb, var(--marine) 30%, transparent);
+  text-decoration: none;
+}
 
-  .nav[popover],
-  .nav[popover]:not(:popover-open) {
-    display: block;
-    position: static;
-    inset: auto;
-    inline-size: auto;
-    max-block-size: none;
-    padding: 0;
-    overflow: visible;
-    background: none;
-    border: 0;
-    opacity: 1;
-    transform: none;
-  }
-
-  .nav__liste {
-    display: flex;
-    inline-size: auto;
-    gap: var(--sp-1) var(--sp-5);
-  }
-
-  .nav__lien {
-    min-block-size: var(--zone-tactile);
-    font-size: var(--fs-1);
-    letter-spacing: 0.09em;
-    border: 0;
-    background: linear-gradient(var(--orange), var(--orange)) no-repeat 0 78% / 0 3px;
-  }
-
-  .nav__lien:hover,
-  .nav__lien:focus-visible {
-    color: var(--creme);
-    background-size: 100% 3px;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .nav__lien {
-      transition: background-size var(--t-moyen) var(--ease-sortie);
-    }
-  }
+.menu__liste a:hover,
+.menu__liste a:focus-visible {
+  background: var(--voile);
 }
 
 /* ----- Bouton d'action unique : « Parlez-nous de votre projet » ----- */
-/* Au repos : un petit point. Au survol ou au clavier : le point grossit et remplit tout le bouton. */
+/* Au repos : un petit point orange. Au survol ou au clavier : le point grossit et remplit tout le bouton. */
 .bouton {
   --bouton-fond: var(--marine);
   --bouton-texte: var(--creme);
@@ -259,14 +225,16 @@
   display: inline-flex;
   align-items: center;
   gap: var(--sp-3);
+  max-inline-size: 100%; /* le bouton se rétrécit et son texte passe à la ligne si le texte est très agrandi */
+  overflow-wrap: anywhere;
   min-block-size: 3.5rem;
   padding: 0.9rem 1.5rem 0.9rem 2.6rem;
   background: var(--bouton-fond);
   color: var(--bouton-texte);
   border: 2px solid var(--bouton-fond);
   border-radius: var(--rayon);
-  font: 700 1.25rem / 1.05 var(--police-titre);
-  letter-spacing: 0.05em;
+  font: 600 var(--fs-2) / 1.25 var(--police-texte);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
@@ -295,22 +263,6 @@
   transform: scale(90);
 }
 
-/* Variantes selon le fond sur lequel le bouton est posé */
-.theme-marine .bouton,
-.theme-encre .bouton {
-  --bouton-fond: var(--orange);
-  --bouton-texte: var(--encre);
-  --bouton-point: var(--creme);
-  --bouton-texte-survol: var(--encre);
-}
-
-.theme-orange .bouton {
-  --bouton-fond: var(--encre);
-  --bouton-texte: var(--creme);
-  --bouton-point: var(--creme);
-  --bouton-texte-survol: var(--encre);
-}
-
 .bouton__fleche {
   inline-size: 1.25rem;
   block-size: 1.25rem;
@@ -336,51 +288,5 @@
 
   .bouton::before {
     transition: transform 0.6s var(--ease-sortie);
-  }
-}
-
-/* ----- Trame d'imprimerie : un champ de points, comme sur une photo de journal ----- */
-.trame {
-  position: relative;
-  isolation: isolate;
-}
-
-.trame::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background-image: radial-gradient(circle at center, currentColor 1.1px, transparent 1.6px);
-  background-size: 14px 14px;
-  opacity: 0.14;
-  mask-image: linear-gradient(to left, black 0%, transparent 78%);
-}
-
-/* ----- Éclat : un reflet en biais traverse le bloc au survol ----- */
-.eclat {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-
-.eclat::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(-45deg, transparent 58%, color-mix(in srgb, var(--creme) 20%, transparent) 70%, transparent 82%) no-repeat;
-  background-size: 250% 250%;
-  background-position: -100% -100%;
-}
-
-.eclat:hover::after {
-  background-position: 100% 100%;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .eclat::after {
-    transition: background-position 0.9s var(--ease-sortie);
   }
 }

@@ -14,23 +14,10 @@ export default defineConfig({
   // Rien n'est chargé depuis Google : aucune donnée du visiteur n'est transmise à un tiers.
   fonts: [
     {
-      // Titres : police libre la plus proche des lettres du logo (Sunborn Sans One n'a pas de licence web confirmée).
-      provider: fontProviders.local(),
-      name: 'Passion One',
-      cssVariable: '--police-titre',
-      weights: [700],
-      styles: ['normal'],
-      display: 'swap',
-      fallbacks: ['Arial Narrow', 'Arial', 'sans-serif'],
-      options: {
-        variants: [{ src: ['./src/assets/fonts/PassionOne-Bold-latin.woff2'], weight: 700, style: 'normal' }],
-      },
-    },
-    {
-      // Texte courant et citations : Playfair Display, la police serif de la plaquette (police variable 400 à 900).
+      // Titres, chapeaux et chiffres : Playfair Display, la police serif de la plaquette (police variable 400 à 900).
       provider: fontProviders.local(),
       name: 'Playfair Display',
-      cssVariable: '--police-texte',
+      cssVariable: '--police-titre',
       weights: ['400 900'],
       styles: ['normal', 'italic'],
       display: 'swap',
@@ -40,6 +27,19 @@ export default defineConfig({
           { src: ['./src/assets/fonts/PlayfairDisplay-latin-wght.woff2'], weight: '400 900', style: 'normal' },
           { src: ['./src/assets/fonts/PlayfairDisplay-Italic-latin-wght.woff2'], weight: '400 900', style: 'italic' },
         ],
+      },
+    },
+    {
+      // Texte courant, petites capitales et menus : Libre Franklin, une sans empattement de presse très lisible.
+      provider: fontProviders.local(),
+      name: 'Libre Franklin',
+      cssVariable: '--police-texte',
+      weights: ['400 800'],
+      styles: ['normal'],
+      display: 'swap',
+      fallbacks: ['Arial', 'Helvetica', 'sans-serif'],
+      options: {
+        variants: [{ src: ['./src/assets/fonts/LibreFranklin-latin-wght.woff2'], weight: '400 800', style: 'normal' }],
       },
     },
   ],

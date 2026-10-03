@@ -1,6 +1,7 @@
 /* =============================================================================
-   JETONS : couleurs, typographie, espacements, mouvement
+   JETONS : couleurs, typographie, espacements
    Tout le site lit ces valeurs. Ne jamais écrire une couleur ou une taille « en dur » ailleurs.
+   Direction : la une d'un journal de proximité moderne. Papier crème, encre bleu marine, filets, colonnes.
    ============================================================================= */
 
 :root {
@@ -12,59 +13,64 @@
        crème       : 181 208 pixels, le plus fréquent -> #F8F4EC
        orange      : trait dessiné à la main (de #D97B24 à #DD8D42), médiane de 14 742 pixels -> #DB8839
      --------------------------------------------------------------------------- */
-  --marine: #162996; /* le bleu du logo : texte courant, titres, fonds bleus */
-  --orange: #db8839; /* l'orange du logo : filets, traits, aplats, GRANDS titres sur fond marine */
-  --creme: #f8f4ec; /* le crème du logo : fond du site */
+  --marine: #162996; /* le bleu du logo : filets, liens, fond du pied de page */
+  --orange: #db8839; /* l'orange du logo : RARE, réservé aux petits traits décoratifs */
+  --creme: #f8f4ec; /* le crème du logo : le papier */
 
   /* ---------------------------------------------------------------------------
      COULEURS DÉRIVÉES : même famille, choisies pour tenir les contrastes
      --------------------------------------------------------------------------- */
-  --orange-texte: #94500f; /* ORANGE FONCÉ pour écrire en orange sur fond clair (l'orange du logo est trop clair) */
-  --encre: #0e1b5e; /* marine profond : petit texte sur aplat orange, fond du pied de page */
-  --papier: #efe7d8; /* crème plus foncé : sections en alternance */
+  --encre: #0e1b5e; /* bleu marine foncé : texte courant et titres */
+  --voile: #efe7d8; /* crème plus soutenu : la rubrique « Aller plus loin » */
+  --orange-texte: #94500f; /* ORANGE FONCÉ pour écrire en orange (surtitres) : l'orange du logo est trop clair */
   --marine-doux: #3f4ea5; /* texte secondaire sur fond clair */
-  --creme-doux: #cbcbdb; /* texte secondaire sur fond marine */
+  --creme-doux: #cbcbdb; /* texte secondaire sur fond marine (pied de page) */
 
   /* ---------------------------------------------------------------------------
      CONTRASTES CALCULÉS (formule WCAG 2.1, luminance relative)
      Minimum visé : 4,5:1 pour le texte ; 3:1 pour les grands textes (24 px et plus) et les éléments d'interface.
 
-       marine        sur crème   10,68  OK  texte courant, titres
-       crème         sur marine  10,68  OK  texte sur fond bleu
-       marine        sur papier   9,54  OK  texte sur sections en alternance
-       orange        sur crème    2,52  NON texte et contours utiles interdits ; réservé aux filets décoratifs
-       orange        sur marine   4,24  OK  grands titres et éléments d'interface sur bleu ; PAS de petit texte
-       marine        sur orange   4,24  OK  grands titres seulement sur un aplat orange
-       encre         sur orange   5,68  OK  petit texte sur un aplat orange
-       orange        sur encre    5,68  OK  petit texte orange sur le pied de page
-       crème         sur encre   14,32  OK  texte du pied de page
-       orange-texte  sur crème    5,61  OK  texte orange sur fond clair (papier : 5,01 ; blanc cassé : 6,05)
-       marine-doux   sur crème    6,73  OK  texte secondaire (papier : 6,01)
-       creme-doux    sur marine   7,31  OK  texte secondaire sur fond bleu
+       encre         sur crème   14,32  OK  texte courant, titres
+       encre         sur voile   12,78  OK  texte de la rubrique « Aller plus loin »
+       marine        sur crème   10,68  OK  filets, liens, cadres (éléments d'interface)
+       marine        sur voile    9,54  OK
+       orange-texte  sur crème    5,61  OK  surtitres des rubriques
+       orange-texte  sur voile    5,01  OK
+       marine-doux   sur crème    6,73  OK  texte secondaire (légendes, sources)
+       marine-doux   sur voile    6,01  OK
+       crème         sur marine  10,68  OK  texte du pied de page
+       crème-doux    sur marine   7,31  OK  texte secondaire du pied de page
+       encre         sur orange   5,68  OK  texte du bouton quand le point orange le remplit (survol)
+       orange        sur crème    2,52  NON jamais pour du texte ni un contour utile ; petits traits décoratifs seulement
 
      Deux usages de l'orange :
-       1. --orange        : décor, traits, aplats, très grands titres sur fond marine.
+       1. --orange        : décor (soulignement du bouton, trait sous un mot, filets courts). Jamais de texte.
        2. --orange-texte  : tout texte orange sur fond clair.
      --------------------------------------------------------------------------- */
+  --texte: var(--encre);
+  --doux: var(--marine-doux);
+  --filet-couleur: var(--marine);
+  --anneau: var(--marine);
 
   /* ---------------------------------------------------------------------------
-     TYPOGRAPHIE
-     --police-titre et --police-texte sont fournies par Astro (astro.config.mjs).
-     Échelle (ratio environ 1,25 à 1,33), validée avec UI/UX Pro Max : 14 · 16 · 18 · 24 · 32 · 48+.
-     Interligne du texte courant 1,5 à 1,75 ; longueur de ligne 65 à 75 caractères.
+     TYPOGRAPHIE : deux familles, hébergées par nous (astro.config.mjs)
+       --police-titre : Playfair Display (titres, chapeaux, chiffres)
+       --police-texte : Libre Franklin (texte courant, petites capitales, menus)
+     Échelle (ratio environ 1,25 à 1,33), validée avec UI/UX Pro Max : 13 · 15 · 17/18 · 22 · 24 · 40 · 68 · 76.
+     Texte courant : interligne 1,5 à 1,75, 65 à 75 caractères par ligne.
      --------------------------------------------------------------------------- */
-  --fs-1: 0.875rem; /* 14 px : petites capitales (menu, étiquettes) */
-  --fs-2: 1rem; /* 16 px : texte secondaire */
-  --fs-3: 1.0625rem; /* 17 px : texte courant sur mobile */
-  --fs-4: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem); /* 20 à 24 px : chapô, textes d'appel */
-  --fs-5: clamp(1.5rem, 1.2rem + 1.2vw, 2rem); /* 24 à 32 px : titres de niveau 3 */
-  --fs-6: clamp(2rem, 1.4rem + 2.4vw, 3.25rem); /* 32 à 52 px : titres de niveau 2 */
-  --fs-7: clamp(2.5rem, 1.2rem + 5.4vw, 5.5rem); /* 40 à 88 px : titre de niveau 1 */
-  --fs-8: clamp(3rem, 1.6rem + 6vw, 6rem); /* 48 à 96 px : grands chiffres (plafond du plancher de qualité) */
+  --fs-1: 0.8125rem; /* 13 px : petites capitales espacées (rubriques, légendes de chiffres) */
+  --fs-2: 0.9375rem; /* 15 px : mentions, sources, textes secondaires */
+  --fs-3: 1.0625rem; /* 17 px : texte courant sur mobile (18 px dès la tablette, voir base.css) */
+  --fs-4: clamp(1.25rem, 1.08rem + 0.75vw, 1.625rem); /* 20 à 26 px : chapeaux */
+  --fs-5: clamp(1.25rem, 1.12rem + 0.55vw, 1.5rem); /* 20 à 24 px : titres de niveau 3 */
+  --fs-6: clamp(1.75rem, 1.28rem + 1.95vw, 2.75rem); /* 28 à 44 px : titres de niveau 2 */
+  --fs-7: clamp(2.25rem, 1.2rem + 4.4vw, 4.75rem); /* 36 à 76 px : titre de la une (niveau 1) */
+  --fs-8: clamp(2.5rem, 1.6rem + 3.6vw, 4.25rem); /* 40 à 68 px : grands chiffres en Playfair Display */
 
   --lh-corps: 1.65;
-  --lh-titre: 1;
-  --lh-serre: 1.12;
+  --lh-titre: 1.06;
+  --lh-serre: 1.02;
   --mesure: 68ch;
 
   /* ---------------------------------------------------------------------------
@@ -80,45 +86,43 @@
   --sp-8: 4rem;
   --sp-9: 6rem;
   --sp-10: 8rem;
-  --section-y: clamp(var(--sp-8), 3rem + 5vw, 7rem);
+  --section-y: clamp(var(--sp-7), 2.4rem + 3vw, var(--sp-8));
 
   --largeur: 85rem; /* 1360 px : le contenu occupe l'écran, les marges restent étroites */
   --gouttiere: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
-  --hauteur-entete: 4.5rem;
 
-  /* Formes : des angles vifs, comme une page imprimée (pas de coins arrondis, pas d'ombres) */
-  --rayon: 2px;
+  /* Formes : des angles vifs, comme une page imprimée (pas de coins arrondis, pas d'ombres, pas de dégradés) */
+  --rayon: 0;
   --filet-fin: 1px;
-  --filet-epais: 3px;
+  --filet-moyen: 2px;
+  --filet-epais: 6px;
   --zone-tactile: 2.75rem; /* 44 px */
 
-  /* Mouvement : une seule courbe de sortie, trois durées */
+  /* Mouvement : une seule courbe de sortie, trois durées. Seuls survol et focus bougent. */
   --ease-sortie: cubic-bezier(0.16, 1, 0.3, 1);
   --t-rapide: 150ms;
   --t-moyen: 300ms;
-  --t-lent: 600ms;
 }
 
 /* ---------------------------------------------------------------------------
-   THÈMES : chaque section choisit son fond ; texte, filets et anneau de focus suivent.
+   THÈMES : chaque bloc choisit son fond ; texte, filets et anneau de focus suivent.
+   Le pied de page est le SEUL grand bloc bleu.
    --------------------------------------------------------------------------- */
 .theme-creme {
   --fond: var(--creme);
-  --texte: var(--marine);
+  --texte: var(--encre);
   --doux: var(--marine-doux);
-  --accent: var(--orange);
   --accent-texte: var(--orange-texte);
-  --filet: color-mix(in srgb, var(--marine) 30%, transparent);
+  --filet-couleur: var(--marine);
   --anneau: var(--marine);
 }
 
-.theme-papier {
-  --fond: var(--papier);
-  --texte: var(--marine);
+.theme-voile {
+  --fond: var(--voile);
+  --texte: var(--encre);
   --doux: var(--marine-doux);
-  --accent: var(--orange);
   --accent-texte: var(--orange-texte);
-  --filet: color-mix(in srgb, var(--marine) 32%, transparent);
+  --filet-couleur: var(--marine);
   --anneau: var(--marine);
 }
 
@@ -126,37 +130,14 @@
   --fond: var(--marine);
   --texte: var(--creme);
   --doux: var(--creme-doux);
-  --accent: var(--orange); /* seulement pour de grands éléments (contraste 4,24:1) */
-  --accent-texte: var(--orange);
-  --filet: color-mix(in srgb, var(--creme) 32%, transparent);
-  --anneau: var(--creme);
-}
-
-.theme-orange {
-  --fond: var(--orange);
-  --texte: var(--encre);
-  --doux: var(--encre);
-  --accent: var(--encre);
-  --accent-texte: var(--encre);
-  --filet: color-mix(in srgb, var(--encre) 45%, transparent);
-  --anneau: var(--encre);
-}
-
-.theme-encre {
-  --fond: var(--encre);
-  --texte: var(--creme);
-  --doux: var(--creme-doux);
-  --accent: var(--orange);
-  --accent-texte: var(--orange); /* petit texte orange permis sur l'encre : 5,68:1 */
-  --filet: color-mix(in srgb, var(--creme) 28%, transparent);
+  --accent-texte: var(--creme);
+  --filet-couleur: var(--creme);
   --anneau: var(--creme);
 }
 
 .theme-creme,
-.theme-papier,
-.theme-marine,
-.theme-orange,
-.theme-encre {
+.theme-voile,
+.theme-marine {
   background: var(--fond);
   color: var(--texte);
 }

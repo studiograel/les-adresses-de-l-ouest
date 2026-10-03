@@ -16,9 +16,9 @@ Si une réponse est « non » : on n'ajoute pas la photo.
 
 | Emplacement | Où ça s'affiche | Combien |
 |-------------|-----------------|---------|
-| `hero` | À droite du titre, tout en haut de l'accueil | 1 |
-| `concept` | Sous le titre « Un projet de communication locale » | 1 |
-| `offre` | En bandeau, au-dessus de l'offre vidéo | 1 |
+| `hero` | À droite du grand titre de la une, au-dessus de la citation | 1 |
+| `concept` | À gauche du texte du concept (sur grand écran), au-dessus du texte sur téléphone | 1 |
+| `offre` | En bandeau, au-dessus de l'encadré de l'offre vidéo | 1 |
 | `galerie` | Une nouvelle section « En images » | de 1 à 8 |
 
 Dès qu'une photo est ajoutée, la section change de mise en page toute seule (avec photo / sans photo).

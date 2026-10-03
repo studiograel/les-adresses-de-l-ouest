@@ -1,54 +1,59 @@
 ---
-// Pied de page : contact, réseaux, liens légaux, signature du studio.
-// Le téléphone est un lien texte (jamais un bouton). Aucun formulaire, aucune inscription.
+// Pied de page : le pavé de signature du journal. Fond bleu marine, double filet, contacts, réseaux, mentions.
+// Avec le bandeau de titre, c'est le seul grand bloc bleu. Le téléphone est un lien texte (jamais un bouton).
+// Aucun formulaire, aucune inscription.
 import { Image } from 'astro:assets';
 import logo from '../assets/logo.png';
 import { site } from '../data/site.js';
 ---
 
-<footer class="pied theme-encre">
-  <div class="conteneur pied__grille">
-    <div class="pied__marque">
-      <Image
-        src={logo}
-        alt="Logo Les Adresses de l'Ouest : un rond crème au liseré orange, le nom en bleu marine et des silhouettes d'immeubles lyonnais en orange."
-        width={96}
-        height={96}
-        densities={[1, 2, 3]}
-        format="webp"
-        loading="lazy"
-      />
-      <p class="pied__signature">{site.signature}</p>
+<footer class="pied theme-marine">
+  <div class="conteneur">
+    <div class="filet-double" aria-hidden="true"></div>
+
+    <div class="pied__grille">
+      <div class="pied__marque">
+        <Image
+          src={logo}
+          alt="Logo Les Adresses de l'Ouest : un rond crème au liseré orange, le nom en bleu marine et des silhouettes d'immeubles lyonnais en orange."
+          width={96}
+          height={96}
+          densities={[1, 2, 3]}
+          format="webp"
+          loading="lazy"
+        />
+        <p class="pied__signature">{site.signature}</p>
+      </div>
+
+      <div>
+        <h2 class="pied__titre petites-capitales">Nous écrire ou appeler</h2>
+        <ul>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li>
+            Téléphone : <a href={`tel:${site.telephone.lien}`}>{site.telephone.affiche}</a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="pied__titre petites-capitales">Nous suivre</h2>
+        <ul>
+          <li><a href={site.reseaux.instagram} rel="noopener" referrerpolicy="no-referrer">Instagram</a></li>
+          <li><a href={site.reseaux.facebook} rel="noopener" referrerpolicy="no-referrer">Facebook</a></li>
+        </ul>
+      </div>
     </div>
 
-    <div class="pied__bloc">
-      <h2 class="pied__titre">Nous écrire ou appeler</h2>
-      <ul class="pied__liste">
-        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-        <li>
-          Téléphone : <a href={`tel:${site.telephone.lien}`}>{site.telephone.affiche}</a>
-        </li>
-      </ul>
+    <div class="pied__bas">
+      <nav aria-label="Informations légales">
+        <ul class="pied__legal">
+          <li><a href="/mentions-legales/">Mentions légales</a></li>
+          <li><a href="/confidentialite/">Confidentialité</a></li>
+        </ul>
+      </nav>
+      <p class="pied__credit">
+        Site par <a href={site.conception.url} rel="noopener" referrerpolicy="no-referrer">{site.conception.nom}</a>
+      </p>
     </div>
-
-    <div class="pied__bloc">
-      <h2 class="pied__titre">Nous suivre</h2>
-      <ul class="pied__liste">
-        <li><a href={site.reseaux.instagram} rel="noopener" referrerpolicy="no-referrer">Instagram</a></li>
-        <li><a href={site.reseaux.facebook} rel="noopener" referrerpolicy="no-referrer">Facebook</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="conteneur pied__bas">
-    <nav aria-label="Informations légales">
-      <ul class="pied__legal">
-        <li><a href="/mentions-legales/">Mentions légales</a></li>
-        <li><a href="/confidentialite/">Confidentialité</a></li>
-      </ul>
-    </nav>
-    <p class="pied__credit">
-      Site par <a href={site.conception.url} rel="noopener" referrerpolicy="no-referrer">{site.conception.nom}</a>
-    </p>
   </div>
 </footer>

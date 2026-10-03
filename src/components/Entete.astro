@@ -1,64 +1,78 @@
 ---
-// En-tête collant : logo + navigation. Sur mobile, la navigation est un menu déroulant (popover natif).
+// Bandeau de titre du journal : le logo, la devise, les communes, un double filet (trait épais bleu, trait fin dessous),
+// puis la ligne de rubriques en petites capitales, qui sert de navigation par ancres.
+// Sur mobile, la ligne de rubriques devient un menu <details> : de l'HTML et du CSS, aucun JavaScript.
 import { Image } from 'astro:assets';
 import logo from '../assets/logo.png';
+import { site } from '../data/site.js';
 
-const liens = [
+const rubriques = [
   { href: '/#concept', texte: 'Le projet' },
-  { href: '/#pourquoi', texte: 'Pourquoi nous' },
+  { href: '/#pourquoi', texte: 'Pourquoi' },
   { href: '/#offre', texte: "L'offre" },
-  { href: '/#processus', texte: 'Les étapes' },
-  { href: '/#chiffres', texte: 'Les chiffres' },
-  { href: '/#carte', texte: 'La carte' },
+  { href: '/#carte', texte: 'Les lieux' },
   { href: '/#accompagnement', texte: 'Aller plus loin' },
 ];
 ---
 
 <header class="entete">
-  <div class="conteneur entete__barre">
-    <a class="entete__logo" href="/">
-      <Image
-        src={logo}
-        alt="Les Adresses de l'Ouest, retour à l'accueil. Logo : un rond crème au liseré orange, le nom en bleu marine et des silhouettes d'immeubles lyonnais en orange."
-        width={56}
-        height={56}
-        densities={[1, 2, 3]}
-        format="webp"
-        loading="eager"
-      />
-    </a>
+  <div class="conteneur">
+    <div class="entete__titre">
+      <a class="entete__logo" href="/">
+        <Image
+          src={logo}
+          alt="Les Adresses de l'Ouest, retour à l'accueil. Logo : un rond crème au liseré orange, le nom en bleu marine et des silhouettes d'immeubles lyonnais en orange."
+          width={120}
+          height={120}
+          densities={[1, 2]}
+          format="webp"
+          loading="eager"
+        />
+      </a>
+      <div class="entete__devise">
+        <p class="entete__signature">{site.signature}</p>
+        <ul class="entete__communes petites-capitales" aria-label="Communes">
+          {site.communes.map((commune) => <li>{commune}</li>)}
+        </ul>
+      </div>
+    </div>
 
-    <button class="menu-bouton" type="button" popovertarget="menu" aria-controls="menu">
-      <span>Menu</span>
-      <svg class="menu-icone" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" focusable="false">
-        <rect x="1" y="4" width="20" height="2" rx="1"></rect>
-        <rect x="1" y="10" width="20" height="2" rx="1"></rect>
-        <rect x="1" y="16" width="20" height="2" rx="1"></rect>
-      </svg>
-    </button>
+    <div class="filet-double" aria-hidden="true"></div>
 
-    <nav id="menu" class="nav" popover aria-label="Navigation principale">
-      <ul class="nav__liste">
+    <nav class="rubriques petites-capitales" aria-label="Rubriques">
+      <ul class="rubriques__liste">
         {
-          liens.map((lien) => (
+          rubriques.map((rubrique) => (
             <li>
-              <a class="nav__lien" href={lien.href}>
-                {lien.texte}
+              <a class="rubriques__lien" href={rubrique.href}>
+                {rubrique.texte}
               </a>
             </li>
           ))
         }
       </ul>
     </nav>
+
+    <details class="menu">
+      <summary class="menu__bouton petites-capitales">
+        <span>Menu</span>
+        <svg class="menu__icone" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" focusable="false">
+          <rect x="1" y="4" width="20" height="2"></rect>
+          <rect x="1" y="10" width="20" height="2"></rect>
+          <rect x="1" y="16" width="20" height="2"></rect>
+        </svg>
+      </summary>
+      <nav aria-label="Rubriques">
+        <ul class="menu__liste petites-capitales">
+          {
+            rubriques.map((rubrique) => (
+              <li>
+                <a href={rubrique.href}>{rubrique.texte}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </details>
   </div>
 </header>
-
-<script is:inline>
-  // Ferme le menu quand on choisit une rubrique (sinon il resterait ouvert devant la page).
-  var menu = document.getElementById('menu');
-  if (menu) {
-    menu.addEventListener('click', function (e) {
-      if (e.target.closest('a') && menu.matches(':popover-open')) menu.hidePopover();
-    });
-  }
-</script>
