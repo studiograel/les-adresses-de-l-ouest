@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Les Adresses de l'Ouest — Le carnet local de Louison &amp; Léane</title>
+<meta name="description" content="Les commerces et artisans de l'Ouest lyonnais mis en lumière en vidéo. De Tassin à Craponne, en passant par Francheville, Écully et Sainte-Foy.">
+<meta property="og:title" content="Les Adresses de l'Ouest">
+<meta property="og:description" content="Le carnet local de Louison & Léane — les commerces de l'Ouest lyonnais en vidéo.">
+<meta property="og:type" content="website">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Organization",
+  "name":"Les Adresses de l'Ouest",
+  "description":"Média local qui met en lumière les commerces et artisans de l'Ouest lyonnais en vidéo.",
+  "areaServed":["Tassin-la-Demi-Lune","Craponne","Francheville","Écully","Charbonnières-les-Bains","Sainte-Foy-lès-Lyon","Brindas"],
+  "sameAs":["https://www.instagram.com/lesadressesdelouest/"]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ivoire:#F8F4EB;
+  --ivoire-2:#EFE9DB;
+  --bleu:#14267E;
+  --bleu-fonce:#0B1657;
+  --rule:rgba(20,38,126,.25);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--ivoire);color:var(--bleu);
+  font-family:"EB Garamond",Georgia,serif;font-size:1.12rem;line-height:1.5;
+  -webkit-font-smoothing:antialiased;overflow-x:clip;
+}
+h1,h2,h3,h4,.cond{
+  font-family:"Oswald","Arial Narrow",sans-serif;font-weight:700;
+  text-transform:uppercase;line-height:1;margin:0;
+}
+a{color:inherit;}
+p{margin:0 0 .9rem;}
+.wrap{width:min(1100px,92vw);margin-inline:auto;}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--bleu);outline-offset:3px;}
+
+/* ---------- manchette de journal ---------- */
+.manchette{border-bottom:3px double var(--bleu);background:var(--ivoire);}
+.manchette-haut{
+  display:flex;justify-content:space-between;gap:1rem;
+  font-family:"Oswald",sans-serif;font-size:.68rem;letter-spacing:.16em;
+  text-transform:uppercase;padding:.5rem 0;border-bottom:1px solid var(--rule);
+}
+.titre-journal{
+  font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;
+  text-align:center;line-height:.9;letter-spacing:-.01em;
+  font-size:clamp(1.9rem,8.6vw,5.4rem);padding:1.1rem 0 .5rem;
+}
+.sous-titre{
+  text-align:center;font-style:italic;font-size:1.05rem;padding-bottom:.9rem;
+}
+.rubriques{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem 1.6rem;
+  font-family:"Oswald",sans-serif;font-size:.76rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:.55rem 0;border-top:1px solid var(--rule);
+}
+.rubriques a{text-decoration:none;}
+.rubriques a:hover{text-decoration:underline;text-underline-offset:4px;}
+
+/* ---------- bandeau défilant ---------- */
+.ticker{background:var(--bleu);color:var(--ivoire);overflow:hidden;padding:.45rem 0;}
+.ticker-piste{
+  display:flex;gap:2.4rem;white-space:nowrap;width:max-content;
+  font-family:"Oswald",sans-serif;font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;
+  animation:defile 28s linear infinite;
+}
+@keyframes defile{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ---------- à la une ---------- */
+.une{padding:2.2rem 0 1rem;}
+.une-grid{display:grid;gap:1.6rem;}
+.vertical{
+  aspect-ratio:9/16;background:var(--bleu);color:var(--ivoire);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:1.1rem;
+  position:relative;overflow:hidden;
+}
+.vertical::before{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(135deg,rgba(248,244,235,.05) 0 12px,transparent 12px 24px);
+}
+.vertical .play{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:52px;height:52px;border:2px solid rgba(248,244,235,.7);border-radius:50%;
+  display:grid;place-items:center;font-size:.9rem;
+}
+.vertical .cat{
+  font-family:"Oswald",sans-serif;font-size:.66rem;letter-spacing:.14em;
+  text-transform:uppercase;opacity:.8;position:relative;
+}
+.vertical h3{font-size:1.15rem;margin-top:.3rem;position:relative;}
+.une-texte .chapeau{
+  font-family:"Oswald",sans-serif;font-size:.72rem;letter-spacing:.16em;
+  text-transform:uppercase;border-bottom:1px solid var(--rule);
+  padding-bottom:.5rem;margin-bottom:.9rem;
+}
+.une-texte h2{font-size:clamp(1.7rem,5.4vw,2.7rem);margin-bottom:.8rem;}
+.une-texte .accroche{font-size:1.24rem;}
+.une-texte .accroche::first-letter{
+  font-family:"Oswald",sans-serif;font-weight:700;float:left;
+  font-size:3.4rem;line-height:.8;margin:.1rem .5rem 0 0;
+}
+.signature{font-style:italic;opacity:.75;}
+
+/* ---------- coupon d'abonnement ---------- */
+.coupon{padding:.6rem 0 2.6rem;}
+.coupon-cadre{
+  border:2px dashed var(--bleu);background:var(--ivoire-2);
+  padding:1.6rem 1.2rem;position:relative;
+}
+.coupon-ciseaux{
+  position:absolute;top:-.75rem;left:1.4rem;background:var(--ivoire);
+  padding:0 .5rem;font-size:1rem;line-height:1;
+}
+.coupon .estampille{
+  font-family:"Oswald",sans-serif;font-size:.68rem;letter-spacing:.2em;
+  text-transform:uppercase;opacity:.75;margin-bottom:.6rem;
+}
+.coupon h2{font-size:clamp(1.6rem,5.4vw,2.6rem);margin-bottom:.6rem;max-width:18ch;}
+.coupon .accroche{font-size:1.16rem;max-width:52ch;margin-bottom:1.1rem;}
+.coupon-liste{
+  list-style:none;margin:0 0 1.4rem;padding:0;display:grid;gap:.4rem;font-size:1.04rem;
+}
+.coupon-liste li{padding-left:1.3rem;position:relative;}
+.coupon-liste li::before{content:"✓";position:absolute;left:0;font-family:"Oswald",sans-serif;}
+.coupon-form{display:flex;flex-wrap:wrap;gap:.6rem;max-width:520px;}
+.coupon-form input{
+  flex:1 1 240px;min-width:0;font-family:"EB Garamond",serif;font-size:1.08rem;
+  padding:.8rem .9rem;border:1.5px solid var(--bleu);background:#fff;color:var(--bleu);
+}
+.coupon .rassurance{margin:.8rem 0 0;font-size:.95rem;opacity:.7;}
+.coupon .btn{font-size:.9rem;padding:.8rem 1.4rem;}
+
+/* ---------- mur de vidéos ---------- */
+.mur{padding:2.4rem 0 3rem;}
+.titre-rubrique{
+  font-size:1.15rem;letter-spacing:.06em;border-top:3px double var(--bleu);
+  border-bottom:1px solid var(--rule);padding:.6rem 0;margin-bottom:1.4rem;
+  display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+}
+.titre-rubrique span{font-family:"EB Garamond",serif;text-transform:none;font-style:italic;font-size:1rem;font-weight:400;}
+.grille{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem;}
+.tuile{aspect-ratio:9/16;}
+.tuile-news{
+  aspect-ratio:9/16;border:1.5px solid var(--bleu);background:var(--ivoire-2);
+  display:flex;flex-direction:column;justify-content:center;padding:1.1rem;text-align:center;
+}
+.tuile-news h3{font-size:1.05rem;margin-bottom:.5rem;}
+.tuile-news p{font-size:.95rem;margin-bottom:.8rem;}
+.tuile-news input{
+  width:100%;min-width:0;font-family:"EB Garamond",serif;font-size:.95rem;
+  padding:.5rem .6rem;border:1px solid var(--bleu);background:#fff;color:var(--bleu);margin-bottom:.5rem;
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:"Oswald",sans-serif;font-weight:600;text-transform:uppercase;
+  font-size:.82rem;letter-spacing:.1em;padding:.6rem 1.1rem;
+  text-decoration:none;border:1.5px solid var(--bleu);background:var(--bleu);color:var(--ivoire);
+  cursor:pointer;transition:.18s ease;
+}
+.btn:hover{background:var(--bleu-fonce);}
+.btn-vide{background:transparent;color:var(--bleu);}
+.btn-vide:hover{background:var(--bleu);color:var(--ivoire);}
+.btn-inv{background:var(--ivoire);color:var(--bleu);border-color:var(--ivoire);}
+.btn-inv:hover{background:#fff;}
+.btn-large{width:100%;}
+
+/* ---------- encart publicitaire ---------- */
+.encart{background:var(--bleu);color:var(--ivoire);padding:2.6rem 0 3rem;}
+.encart-cadre{border:2px solid var(--ivoire);padding:1.6rem;}
+.encart .estampille{
+  font-family:"Oswald",sans-serif;font-size:.68rem;letter-spacing:.2em;
+  text-transform:uppercase;text-align:center;padding-bottom:.9rem;
+  border-bottom:1px solid rgba(248,244,235,.35);margin-bottom:1.4rem;
+}
+.encart h2{font-size:clamp(1.7rem,5.6vw,2.8rem);text-align:center;margin-bottom:.9rem;}
+.encart .accroche{text-align:center;max-width:56ch;margin:0 auto 1.8rem;font-size:1.18rem;opacity:.92;}
+.deroule{
+  display:grid;gap:.8rem;margin:0 0 2rem;padding:0;list-style:none;
+  font-size:1.05rem;
+}
+.deroule li{display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:baseline;}
+.deroule .n{font-family:"Oswald",sans-serif;font-size:.78rem;letter-spacing:.12em;opacity:.7;}
+
+/* grille tarifaire façon journal */
+.tarifs{width:100%;border-collapse:collapse;font-size:1.05rem;}
+.tarifs th{
+  font-family:"Oswald",sans-serif;font-weight:500;font-size:.72rem;letter-spacing:.14em;
+  text-transform:uppercase;text-align:left;padding:.6rem .4rem;border-bottom:1px solid rgba(248,244,235,.4);
+}
+.tarifs td{padding:.9rem .4rem;border-bottom:1px solid rgba(248,244,235,.2);vertical-align:top;}
+.tarifs .nom{font-family:"Oswald",sans-serif;text-transform:uppercase;font-weight:600;font-size:1rem;}
+.tarifs .prix{font-family:"Oswald",sans-serif;font-weight:700;font-size:1.4rem;white-space:nowrap;}
+.tarifs tr.phare td{background:rgba(248,244,235,.1);}
+.tarifs .mention{display:block;font-size:.88rem;opacity:.75;}
+.note-tarif{font-size:.95rem;opacity:.75;margin-top:1rem;}
+
+/* petites annonces / contact */
+.annonce{display:grid;gap:.9rem;max-width:560px;margin:2.2rem auto 0;}
+.annonce label{font-family:"Oswald",sans-serif;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;}
+.annonce input,.annonce select,.annonce textarea{
+  width:100%;min-width:0;font-family:"EB Garamond",serif;font-size:1.05rem;
+  padding:.65rem .8rem;border:1px solid rgba(248,244,235,.45);background:rgba(248,244,235,.08);color:var(--ivoire);
+}
+.annonce option{color:#14267E;background:#fff;}
+.annonce ::placeholder{color:rgba(248,244,235,.45);}
+.form-ok{display:none;border-left:3px solid var(--ivoire);padding:.8rem 1rem;background:rgba(248,244,235,.12);}
+.form-ok.is-visible{display:block;}
+
+/* ourlet */
+.ourlet{padding:2rem 0;border-top:3px double var(--bleu);font-size:.98rem;}
+.ourlet .wrap{display:grid;gap:.8rem;text-align:center;}
+.ourlet .mentions{font-size:.86rem;opacity:.6;}
+
+@media (min-width:820px){
+  .coupon-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:2.4rem;align-items:center;}
+  .coupon-cadre{padding:2.2rem 2.4rem;}
+  .une-grid{grid-template-columns:minmax(0,.42fr) minmax(0,.58fr);align-items:center;}
+  .grille{grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;}
+  .encart-cadre{padding:2.6rem;}
+  .deroule{grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem 2.4rem;}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .ticker-piste{animation:none;}
+  *{transition:none!important;}
+}
+</style>
+</head>
+<body>
+
+<header class="manchette">
+  <div class="wrap">
+    <div class="manchette-haut">
+      <span>Ouest lyonnais</span>
+      <span>Édition permanente</span>
+      <span>Gratuit</span>
+    </div>
+    <div class="titre-journal">Les Adresses<br>de l'Ouest</div>
+    <div class="sous-titre">Le carnet local de Louison &amp; Léane — commerces, artisans, bonnes tables</div>
+    <nav class="rubriques" aria-label="Rubriques">
+      <a href="#une">À la une</a>
+      <a href="#carnet">Le carnet</a>
+      <a href="#newsletter">Newsletter</a>
+      <a href="#encart">Vous êtes un commerce</a>
+    </nav>
+  </div>
+</header>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-piste">
+    <span>Tassin-la-Demi-Lune</span><span>Craponne</span><span>Francheville</span><span>Écully</span>
+    <span>Charbonnières-les-Bains</span><span>Sainte-Foy-lès-Lyon</span><span>Brindas</span><span>&amp; alentours</span>
+    <span>Tassin-la-Demi-Lune</span><span>Craponne</span><span>Francheville</span><span>Écully</span>
+    <span>Charbonnières-les-Bains</span><span>Sainte-Foy-lès-Lyon</span><span>Brindas</span><span>&amp; alentours</span>
+  </div>
+</div>
+
+<section class="une" id="une">
+  <div class="wrap une-grid">
+    <article class="vertical">
+      <span class="play" aria-hidden="true">▶</span>
+      <span class="cat">Restaurant · Vidéo</span>
+      <h3>Le Temps est Venu</h3>
+    </article>
+    <div class="une-texte">
+      <div class="chapeau">À la une cette semaine</div>
+      <h2>On pousse les portes que vous ne poussez jamais.</h2>
+      <p class="accroche">On habite ici, et on passait devant les mêmes commerces sans jamais y entrer. Alors on a commencé à goûter, essayer, discuter — et à filmer. Chaque semaine, une adresse du secteur est mise en lumière et présentée aux habitants qui vivent à côté.</p>
+      <p class="signature">Louison &amp; Léane — 2 000 habitants nous suivent sur Instagram et Facebook</p>
+    </div>
+  </div>
+</section>
+
+<section class="coupon" id="newsletter">
+  <div class="wrap">
+    <div class="coupon-cadre">
+      <span class="coupon-ciseaux" aria-hidden="true">✂</span>
+      <div class="coupon-grid">
+        <div>
+          <div class="estampille">Le rendez-vous du vendredi · Gratuit</div>
+          <h2>Votre week-end dans l'Ouest lyonnais, en un mail</h2>
+          <p class="accroche">Chaque vendredi matin, on vous envoie les nouvelles adresses de la semaine et les idées de sortie du week-end. Un mail, pas plus.</p>
+        </div>
+        <div>
+          <ul class="coupon-liste">
+            <li>Les adresses avant tout le monde</li>
+            <li>Les marchés et événements du secteur</li>
+            <li>Nos coups de cœur du moment</li>
+          </ul>
+          <div class="coupon-form">
+            <input type="email" placeholder="votre@email.fr" aria-label="Votre adresse mail">
+            <button class="btn" type="button">Je m'inscris</button>
+          </div>
+          <p class="rassurance">Pas de spam, désinscription en un clic. Votre adresse n'est transmise à personne.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mur" id="carnet">
+  <div class="wrap">
+    <h2 class="titre-rubrique">Le carnet d'adresses <span>on y va, on teste, on filme</span></h2>
+    <div class="grille">
+      <article class="vertical tuile"><span class="play" aria-hidden="true">▶</span><span class="cat">Sortie insolite</span><h3>T'Chathé</h3></article>
+      <article class="vertical tuile"><span class="play" aria-hidden="true">▶</span><span class="cat">Supermarché</span><h3>Hipertugal</h3></article>
+      <article class="vertical tuile"><span class="play" aria-hidden="true">▶</span><span class="cat">Activité</span><h3>Camille Velut</h3></article>
+      <article class="vertical tuile"><span class="play" aria-hidden="true">▶</span><span class="cat">Services</span><h3>La Maison des Travaux</h3></article>
+      <article class="vertical tuile"><span class="play" aria-hidden="true">▶</span><span class="cat">Restaurant · 2<sup>e</sup> vidéo</span><h3>Le Temps est Venu</h3></article>
+      <article class="vertical tuile"><span class="play" aria-hidden="true">▶</span><span class="cat">Bientôt</span><h3>6 adresses à venir</h3></article>
+
+      <div class="tuile-news">
+        <h3>Le vendredi, dans votre boîte</h3>
+        <p>Les nouvelles adresses, les marchés et les idées de week-end. Un mail par semaine.</p>
+        <a class="btn btn-large" href="#newsletter">Je m'inscris</a>
+      </div>
+
+      <div class="tuile-news">
+        <h3>Une adresse à nous faire découvrir ?</h3>
+        <p>Dites-nous où on devrait aller la prochaine fois.</p>
+        <a class="btn btn-vide btn-large" href="#annonce">Nous écrire</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="encart" id="encart">
+  <div class="wrap">
+    <div class="encart-cadre">
+      <div class="estampille">Réservé aux commerces et artisans de l'Ouest lyonnais</div>
+      <h2>Votre commerce, vu par vos voisins</h2>
+      <p class="accroche">On vient chez vous, on réalise une vidéo courte et impactante, et on la diffuse auprès des habitants qui vivent à quelques minutes de votre porte. Pas d'audience nationale : que des gens qui peuvent pousser votre porte.</p>
+
+      <ol class="deroule">
+        <li><span class="n">01</span><span><strong>On échange 10 minutes.</strong> Vous nous dites ce que vous voulez mettre en avant, on fixe une date.</span></li>
+        <li><span class="n">02</span><span><strong>On vient chez vous.</strong> Une heure sur place, sans déranger votre activité, rien à préparer.</span></li>
+        <li><span class="n">03</span><span><strong>On monte la vidéo.</strong> Format court, pensé pour Instagram et Facebook. Vous validez avant publication.</span></li>
+        <li><span class="n">04</span><span><strong>On diffuse.</strong> Publications, stories, et les fichiers vous sont envoyés pour vos propres réseaux.</span></li>
+      </ol>
+
+      <table class="tarifs">
+        <thead>
+          <tr><th>Formule</th><th>Ce que vous recevez</th><th>Tarif</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="nom">Découverte</td>
+            <td>1 vidéo tournée chez vous, publiée sur Instagram et Facebook, 1 story dédiée.<span class="mention">Les fichiers vous appartiennent.</span></td>
+            <td class="prix">190 €</td>
+          </tr>
+          <tr class="phare">
+            <td class="nom">Abonnement</td>
+            <td>1 vidéo par mois, publications et stories, mise en avant dans la newsletter, votre fiche sur ce site, rapport de performance mensuel.<span class="mention">Engagement 3 mois — la formule la plus efficace.</span></td>
+            <td class="prix">249 €<span class="mention">par mois</span></td>
+          </tr>
+          <tr>
+            <td class="nom">Trio</td>
+            <td>3 vidéos à étaler sur 3 mois, publications et stories.<span class="mention">Idéal pour suivre vos saisons.</span></td>
+            <td class="prix">480 €<span class="mention">soit 160 € l'unité</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note-tarif">Tarifs de lancement valables jusqu'au 31 décembre.</p>
+
+      <form class="annonce" id="annonce" onsubmit="return false;">
+        <div>
+          <label for="etab">Votre établissement</label>
+          <input id="etab" type="text" placeholder="Ex. Le Temps est Venu">
+        </div>
+        <div>
+          <label for="nom">Votre nom</label>
+          <input id="nom" type="text" placeholder="Prénom et nom">
+        </div>
+        <div>
+          <label for="tel">Votre téléphone</label>
+          <input id="tel" type="tel" placeholder="06 00 00 00 00">
+        </div>
+        <div>
+          <label for="formule">Ce qui vous intéresse</label>
+          <select id="formule">
+            <option>Découverte — 1 vidéo</option>
+            <option>Abonnement — 1 vidéo par mois</option>
+            <option>Trio — 3 vidéos</option>
+            <option>Je me renseigne simplement</option>
+          </select>
+        </div>
+        <div><button class="btn btn-inv btn-large" type="button" id="envoyer">Envoyer ma demande</button></div>
+        <div class="form-ok" id="confirmation" role="status">Demande bien reçue. On vous rappelle sous 48 h.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="ourlet">
+  <div class="wrap">
+    <div class="cond" style="font-size:1.2rem;">Les Adresses de l'Ouest</div>
+    <div><a class="btn btn-vide" href="#newsletter">Recevoir la newsletter</a></div>
+    <div>Instagram <a href="https://www.instagram.com/lesadressesdelouest/">@lesadressesdelouest</a> · Facebook Les Adresses de l'Ouest</div>
+    <div class="mentions">Mentions légales · Politique de confidentialité · Maquette de démonstration — Site par <a href="https://studiograel.fr">Studio Grael</a></div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('envoyer').addEventListener('click',function(){
+    document.getElementById('confirmation').classList.add('is-visible');
+  });
+</script>
+
+</body>
+</html>
