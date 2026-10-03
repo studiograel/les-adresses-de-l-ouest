@@ -44,7 +44,7 @@ export function typographieFrancaise(html) {
       return morceau
         .replace(/ ([:;!?»%€])/g, `${ESPACE_INSECABLE}$1`)
         .replace(/(«) /g, `$1${ESPACE_INSECABLE}`)
-        .replace(/(\p{L})'(\p{L})/gu, '$1’$2'); // apostrophe de typographe
+        .replace(/(\p{L})(?:'|&#39;)(\p{L})/gu, '$1’$2'); // apostrophe de typographe (Astro écrit &#39; pour les textes venant des données)
     })
     .join('');
 }

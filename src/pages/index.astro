@@ -45,6 +45,16 @@ const donneesStructurees = {
 };
 
 const formules = accompagnement.formules;
+
+// Sommaire de la une : 5 rubriques au plus. Le numéro est celui de la rubrique plus bas dans la page
+// (les rubriques 02 « Pourquoi » et 04 « Le processus » existent aussi, sans entrée dans le sommaire : 5 entrées maximum).
+const sommaire = [
+  { href: '#concept', titre: 'Le projet', numero: '01' },
+  { href: '#offre', titre: "L'offre", numero: '03' },
+  { href: '#chiffres', titre: 'En chiffres', numero: '05' },
+  { href: '#carte', titre: 'Les lieux', numero: '06' },
+  { href: '#accompagnement', titre: 'Aller plus loin', numero: '07' },
+];
 ---
 
 <Base
@@ -58,7 +68,7 @@ const formules = accompagnement.formules;
     <div class="conteneur une__grille">
       <div>
         <h1 id="titre-principal">
-          Faites découvrir votre adresse dans l'<span class="surligne">Ouest lyonnais</span>
+          Faites découvrir votre adresse dans l’<span class="surligne">Ouest lyonnais</span>
         </h1>
         <p class="chapeau">{site.concept}</p>
         <hr class="filet-fin" />
@@ -67,6 +77,26 @@ const formules = accompagnement.formules;
 
       <div class="une__lateral">
         {photoHero && <Photo photo={photoHero} priorite class="une__photo" sizes="(min-width: 62rem) 40vw, 100vw" />}
+
+        <nav class="sommaire" aria-labelledby="titre-sommaire">
+          <p class="sommaire__titre petites-capitales" id="titre-sommaire">Sommaire</p>
+          <ol class="sommaire__liste">
+            {
+              sommaire.map((rubrique) => (
+                <li>
+                  <a class="sommaire__lien" href={rubrique.href}>
+                    <span class="sommaire__libelle">{rubrique.titre}</span>
+                    <span class="sommaire__points" aria-hidden="true" />
+                    <span class="sommaire__numero" aria-hidden="true">
+                      {rubrique.numero}
+                    </span>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </nav>
+
         <p class="citation">Des vidéos incarnées, immersives et divertissantes.</p>
       </div>
     </div>
@@ -76,8 +106,8 @@ const formules = accompagnement.formules;
   <section id="concept" class:list={['rubrique', 'concept', { 'concept--photo': photoConcept }]} aria-labelledby="titre-concept">
     <div class="conteneur">
       <header class="rubrique__entete">
-        <p class="surtitre">Le projet</p>
-        <h2 id="titre-concept">Un projet de communication locale</h2>
+        <p class="surtitre"><span class="surtitre__numero" aria-hidden="true">01</span>Le projet</p>
+        <h2 id="titre-concept">Un projet de <span class="mot-cle">communication locale</span></h2>
       </header>
 
       <div class="concept__corps">
@@ -99,6 +129,15 @@ const formules = accompagnement.formules;
           </p>
         </div>
       </div>
+
+      <!-- Exergue : la phrase-clé du projet en grand, entre deux doubles filets. Le texte est déjà lu plus haut (chapeau de la une) :
+           on le cache aux lecteurs d'écran pour qu'il ne soit pas lu deux fois. -->
+      <figure class="exergue" aria-hidden="true">
+        <blockquote class="exergue__texte">
+          <p>« {site.concept} »</p>
+        </blockquote>
+        <figcaption class="exergue__signature petites-capitales">{site.nom}</figcaption>
+      </figure>
 
       <div class="duo">
         <p class="duo__intro">Derrière ce projet, un duo complémentaire, tous deux passionnés par l'Ouest lyonnais.</p>
@@ -125,8 +164,8 @@ const formules = accompagnement.formules;
   <section id="pourquoi" class="rubrique pourquoi" aria-labelledby="titre-pourquoi">
     <div class="conteneur">
       <header class="rubrique__entete">
-        <p class="surtitre">Pourquoi</p>
-        <h2 id="titre-pourquoi">Pourquoi apparaître sur ce média</h2>
+        <p class="surtitre"><span class="surtitre__numero" aria-hidden="true">02</span>Pourquoi</p>
+        <h2 id="titre-pourquoi">Pourquoi apparaître sur <span class="mot-cle">ce média</span></h2>
       </header>
 
       <div class="colonnes">
@@ -172,13 +211,14 @@ const formules = accompagnement.formules;
   <section id="offre" class="rubrique offre" aria-labelledby="titre-offre">
     <div class="conteneur">
       <header class="rubrique__entete">
-        <p class="surtitre">L'offre</p>
+        <p class="surtitre"><span class="surtitre__numero" aria-hidden="true">03</span>L'offre</p>
         <h2 id="titre-offre">{offre.titre}</h2>
       </header>
 
       {photoOffre && <Photo photo={photoOffre} class="offre__photo" sizes="100vw" />}
 
-      <div class="annonce">
+      <!-- NIVEAU 2 : l'offre est un bloc bleu marine (texte crème, filets et prix orange) -->
+      <div class="annonce theme-marine">
         <div class="annonce__texte">
           <p class="chapeau">{offre.accroche}</p>
           <ul class="inclus">
@@ -205,7 +245,7 @@ const formules = accompagnement.formules;
                   </p>
                   <p class="prix__libelle">{offre.libellePrix}</p>
                   <p class="prix__offre">
-                    {offre.libelleOffre} jusqu'au {dateLongue(offre.finOffre)}
+                    {offre.libelleOffre} jusqu'au <strong class="date-cle">{dateLongue(offre.finOffre)}</strong>
                   </p>
                   <p class="prix__tva">{offre.tva}</p>
                 </>
@@ -224,8 +264,8 @@ const formules = accompagnement.formules;
   <section id="processus" class="rubrique processus" aria-labelledby="titre-processus">
     <div class="conteneur">
       <header class="rubrique__entete">
-        <p class="surtitre">Le processus</p>
-        <h2 id="titre-processus">Après la signature : le processus en {processus.length} étapes</h2>
+        <p class="surtitre"><span class="surtitre__numero" aria-hidden="true">04</span>Le processus</p>
+        <h2 id="titre-processus">Après la signature : le processus en <span class="mot-cle">{processus.length} étapes</span></h2>
       </header>
       <ol class="etapes">
         {
@@ -244,11 +284,12 @@ const formules = accompagnement.formules;
   <section id="chiffres" class="rubrique chiffres" aria-labelledby="titre-chiffres">
     <div class="conteneur">
       <header class="rubrique__entete">
-        <p class="surtitre">Les chiffres</p>
-        <h2 id="titre-chiffres">Le compte en chiffres</h2>
+        <p class="surtitre"><span class="surtitre__numero" aria-hidden="true">05</span>En chiffres</p>
+        <h2 id="titre-chiffres">Le compte <span class="mot-cle">en chiffres</span></h2>
       </header>
 
-      <dl class="chiffres__grille">
+      <!-- NIVEAU 2 : les chiffres sont un bloc bleu marine aux grands chiffres orange -->
+      <dl class="chiffres__grille theme-marine">
         <div class="chiffre">
           <dt class="petites-capitales">Abonnés Instagram</dt>
           <dd>{nombre(chiffres.instagram.abonnes)}</dd>
@@ -301,7 +342,7 @@ const formules = accompagnement.formules;
   <section id="accompagnement" class="rubrique accompagnement theme-voile" aria-labelledby="titre-accompagnement">
     <div class="conteneur">
       <header class="rubrique__entete">
-        <p class="surtitre">Aller plus loin</p>
+        <p class="surtitre"><span class="surtitre__numero" aria-hidden="true">07</span>Aller plus loin</p>
         <h2 id="titre-accompagnement">{accompagnement.titre}</h2>
       </header>
 

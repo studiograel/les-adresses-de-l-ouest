@@ -1,5 +1,5 @@
 /* =============================================================================
-   COMPOSANTS : filets, bandeau de titre, rubriques, menu mobile, bouton
+   COMPOSANTS : filets, bandeau de titre, ligne de date, bouton
    Effets inspirés de Magic UI (bibliothèque de RÉFÉRENCE : rien n'est installé, tout est refait en CSS) :
      - bouton : « interactive hover button » (un point qui grossit jusqu'à remplir le bouton, au survol ou au clavier)
    Aucune image, aucune texture, aucune ombre, aucun dégradé. Seuls le survol et le focus bougent.
@@ -95,130 +95,27 @@
   }
 }
 
-/* Rubriques : la ligne de navigation du journal (par ancres) */
-.rubriques {
-  --marge-rubrique: var(--sp-4);
-  display: none;
+/* Ligne de date : juste sous le double filet, entre deux filets fins, en petites capitales.
+   Sans JavaScript elle dit « Ouest lyonnais » ; avec, un petit script y écrit la vraie date du jour (voir Entete.astro). */
+.entete__date {
+  margin: 0;
+  max-inline-size: none;
+  padding-block: var(--sp-2);
   border-block-end: var(--filet-fin) solid var(--filet-couleur);
-}
-
-.rubriques__liste {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.rubriques__lien {
-  display: flex;
-  align-items: center;
-  min-block-size: var(--zone-tactile);
-  padding-inline: var(--marge-rubrique);
-  color: var(--texte);
-  text-decoration: none;
-  background: linear-gradient(var(--marine), var(--marine)) no-repeat 50% calc(50% + 0.95em) / 0 2px;
-}
-
-.rubriques__liste li + li {
-  border-inline-start: var(--filet-fin) solid color-mix(in srgb, var(--marine) 30%, transparent);
-}
-
-.rubriques__lien:hover,
-.rubriques__lien:focus-visible {
-  background-size: calc(100% - 2 * var(--marge-rubrique)) 2px;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .rubriques__lien {
-    transition: background-size var(--t-moyen) var(--ease-sortie);
-  }
-}
-
-/* À partir de la tablette, la ligne de rubriques remplace le menu */
-@media (min-width: 48rem) {
-  .rubriques {
-    display: block;
-  }
-
-  .menu {
-    display: none;
-  }
-}
-
-@media (min-width: 62rem) {
-  .rubriques {
-    --marge-rubrique: var(--sp-5);
-  }
-}
-
-/* Menu mobile : un simple <details>, sans JavaScript */
-.menu {
-  border-block-end: var(--filet-fin) solid var(--filet-couleur);
-}
-
-.menu__bouton {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-block-size: var(--zone-tactile);
-  padding: 0 var(--sp-2);
-  list-style: none;
-  cursor: pointer;
-}
-
-.menu__bouton::-webkit-details-marker {
-  display: none;
-}
-
-.menu__bouton::marker {
-  content: '';
-}
-
-.menu__icone rect {
-  fill: currentColor;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-/* La croix remplace les trois traits quand le menu est ouvert */
-.menu[open] .menu__icone rect:nth-child(1) {
-  transform: translateY(6px) rotate(45deg);
-}
-
-.menu[open] .menu__icone rect:nth-child(2) {
-  transform: scaleX(0);
-}
-
-.menu[open] .menu__icone rect:nth-child(3) {
-  transform: translateY(-6px) rotate(-45deg);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .menu__icone rect {
-    transition: transform var(--t-moyen) var(--ease-sortie);
-  }
-}
-
-.menu__liste a {
-  display: flex;
-  align-items: center;
-  min-block-size: 3.25rem;
-  padding-inline: var(--sp-2);
-  border-block-start: var(--filet-fin) solid color-mix(in srgb, var(--marine) 30%, transparent);
-  text-decoration: none;
-}
-
-.menu__liste a:hover,
-.menu__liste a:focus-visible {
-  background: var(--voile);
+  text-align: center;
+  font-variant-numeric: lining-nums;
 }
 
 /* ----- Bouton d'action unique : « Parlez-nous de votre projet » ----- */
-/* Au repos : un petit point orange. Au survol ou au clavier : le point grossit et remplit tout le bouton. */
+/* NIVEAU 1 d'importance : c'est le seul élément qui porte l'orange en aplat, avec le prix.
+   Au repos : fond orange, texte bleu très foncé (encre sur orange : 5,68:1 ; le marine #162996 n'y ferait que 4,24:1)
+   et un petit point foncé. Au survol ou au clavier : le point grossit et remplit tout le bouton, le texte passe en crème
+   (crème sur encre : 14,32:1). Le liseré (--bouton-bord) suit le fond : foncé sur crème, orange sur bleu. */
 .bouton {
-  --bouton-fond: var(--marine);
-  --bouton-texte: var(--creme);
-  --bouton-point: var(--orange);
-  --bouton-texte-survol: var(--encre);
+  --bouton-fond: var(--orange);
+  --bouton-texte: var(--encre);
+  --bouton-point: var(--encre);
+  --bouton-texte-survol: var(--creme);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -231,7 +128,7 @@
   padding: 0.9rem 1.5rem 0.9rem 2.6rem;
   background: var(--bouton-fond);
   color: var(--bouton-texte);
-  border: 2px solid var(--bouton-fond);
+  border: 2px solid var(--bouton-bord, var(--encre));
   border-radius: var(--rayon);
   font: 600 var(--fs-2) / 1.25 var(--police-texte);
   letter-spacing: 0.08em;

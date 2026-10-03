@@ -1,18 +1,10 @@
 ---
 // Bandeau de titre du journal : le logo, la devise, les communes, un double filet (trait épais bleu, trait fin dessous),
-// puis la ligne de rubriques en petites capitales, qui sert de navigation par ancres.
-// Sur mobile, la ligne de rubriques devient un menu <details> : de l'HTML et du CSS, aucun JavaScript.
+// puis la ligne de date en petites capitales.
+// La navigation par rubriques n'est plus ici : c'est le « Sommaire » de la une (index.astro) qui la remplace.
 import { Image } from 'astro:assets';
 import logo from '../assets/logo.png';
 import { site } from '../data/site.js';
-
-const rubriques = [
-  { href: '/#concept', texte: 'Le projet' },
-  { href: '/#pourquoi', texte: 'Pourquoi' },
-  { href: '/#offre', texte: "L'offre" },
-  { href: '/#carte', texte: 'Les lieux' },
-  { href: '/#accompagnement', texte: 'Aller plus loin' },
-];
 ---
 
 <header class="entete">
@@ -39,40 +31,21 @@ const rubriques = [
 
     <div class="filet-double" aria-hidden="true"></div>
 
-    <nav class="rubriques petites-capitales" aria-label="Rubriques">
-      <ul class="rubriques__liste">
-        {
-          rubriques.map((rubrique) => (
-            <li>
-              <a class="rubriques__lien" href={rubrique.href}>
-                {rubrique.texte}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-
-    <details class="menu">
-      <summary class="menu__bouton petites-capitales">
-        <span>Menu</span>
-        <svg class="menu__icone" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" focusable="false">
-          <rect x="1" y="4" width="20" height="2"></rect>
-          <rect x="1" y="10" width="20" height="2"></rect>
-          <rect x="1" y="16" width="20" height="2"></rect>
-        </svg>
-      </summary>
-      <nav aria-label="Rubriques">
-        <ul class="menu__liste petites-capitales">
-          {
-            rubriques.map((rubrique) => (
-              <li>
-                <a href={rubrique.href}>{rubrique.texte}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-    </details>
+    <!-- Sans JavaScript : « Ouest lyonnais ». Avec : la vraie date du jour du visiteur (heure de Paris), jamais une date inventée. -->
+    <p class="entete__date petites-capitales" id="date-du-jour">Ouest lyonnais</p>
   </div>
+
+  <script is:inline>
+    (function () {
+      var ligne = document.getElementById('date-du-jour');
+      if (!ligne || !window.Intl) return;
+      ligne.textContent = new Intl.DateTimeFormat('fr-FR', {
+        timeZone: 'Europe/Paris',
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      }).format(new Date());
+    })();
+  </script>
 </header>

@@ -80,3 +80,62 @@ Accueil : premier affichage 0,9 s, plus grand élément 1,5 s, blocage 0 ms, dé
 - Safari et Firefox : mesures faites avec Chrome. Les fonctions utilisées (`:has`, `cqi`, `text-wrap`, `details`) sont récentes mais bien prises en charge.
 - Le comportement du site une fois en ligne chez Cloudflare (cookies, en-têtes).
 - Un vrai téléphone : les mesures sont faites avec un navigateur qui simule la taille et le toucher.
+
+---
+
+# Passe « renforcement » : effet journal et contraste bleu / orange (3 octobre 2026)
+
+Point de départ : étiquette Git `avant-renforcement` (retour : `git reset --hard avant-renforcement`).
+Rien n'a changé dans `src/data/` (empreintes SHA-256 identiques avant / après sur les 7 fichiers).
+
+## Contrastes calculés (formule WCAG 2.1) pour le bleu et l'orange
+
+| Paire | Rapport | Verdict | Valeur retenue |
+|-------|---------|---------|----------------|
+| orange `#DB8839` sur bleu marine `#162996` | 4,24 | **gros texte et éléments d'interface seulement** (3:1) | prix, grands chiffres, « 1 h 30 », filets, fond du bouton |
+| bleu marine `#162996` sur orange (texte du bouton) | 4,24 | trop juste pour du petit texte | **bleu très foncé `#0E1B5E` sur orange : 5,68** |
+| orange foncé `#94500F` sur crème | 5,61 | OK | surtitres, numéros d'étapes |
+| crème `#F8F4EC` sur bleu marine | 10,68 | OK | texte des blocs bleus |
+| petit texte orange sur bleu marine | 4,24 avec l'orange du logo | trop juste | **orange éclairci `#E5993F` : 5,00** (6,70 sur `#0E1B5E`) |
+| crème sur `#0E1B5E` (bouton survolé) | 14,32 | OK | |
+
+Les valeurs retenues sont écrites en commentaire dans `src/styles/tokens.css`. Les couleurs de la marque ne sont changées nulle part ailleurs.
+Mesure réelle dans le navigateur, sur 137 textes avec leur vrai fond : **0 violation**. Pire petit texte : 5,00:1 (date « 31 octobre 2026 » sur bleu).
+Pire gros texte : 4,24:1 (orange du logo sur bleu, minimum demandé 3:1).
+
+## Résultat des contrôles
+
+| Contrôle | Résultat |
+|----------|----------|
+| Détecteur Impeccable (`detect`) | `[]` : aucune alerte |
+| Lighthouse mobile, 3 pages | 100 / 100 / 100 / 100 partout (accueil : premier affichage 0,9 s, plus grand élément 1,7 s, blocage 0 ms, décalage 0) |
+| Débordement horizontal | 0 sur 54 combinaisons (3 pages × 6 largeurs de 320 à 1440 px × 3 tailles de texte : 100, 150, 200 %) |
+| Zones tactiles | 16 éléments cliquables, tous ≥ 44 px (mesuré à 375 et à 1440 px) |
+| Un seul bouton d'action visible à la fois | 3 boutons dans la page (à 630, 3 069 et 6 486 px du haut à 1440 px), 1 visible au maximum à tout moment (mesuré à 375 et à 1440 px) |
+| Clavier | 17 éléments focalisables, tous avec un anneau de 3 px (marine sur crème, crème sur bleu) ; vrai appui sur Tab vérifié sur le premier élément |
+| Mouvement réduit | toutes les transitions sont dans `@media (prefers-reduced-motion: no-preference)` (7 règles, 0 en dehors) |
+| Cookies, stockage, ressources tierces | aucun cookie, aucun stockage local, 0 ressource chargée hors du site |
+
+## Trouvé et corrigé pendant ce passage
+
+| Trouvé | Corrigé |
+|--------|---------|
+| Surtitre avec numéro et pointillé : débordement horizontal de 13 px à 375 px quand le texte est agrandi à 200 % | le surtitre passe à la ligne (`flex-wrap`) |
+| Double trait en trop sous l'exergue (ses filets + le filet du duo) | le filet du duo est retiré juste après l'exergue |
+| Chiffres de rubrique en Playfair (« 01 » ressemblait à « OI ») | chiffres en Libre Franklin, alignés |
+| Pied de page devenu orange épais après le passage au thème bleu | filets du pied remis en crème comme avant |
+| Apostrophes droites dans les textes venant de `src/data/` (Astro écrit `&#39;`) et dans le titre | apostrophes de typographe partout |
+
+## Restant (choix assumés ou limites)
+
+- **[P3] Beaucoup de filets épais** : un filet de 6 px ouvre chaque rubrique, l'exergue et les blocs bleus. C'est le langage graphique d'un journal, mais à regarder avec la cliente.
+- **[P3] Sommaire sans « Pourquoi » ni « Le processus »** : 5 entrées au maximum, et les deux rubriques manquantes sont dans la page. À valider.
+- **[P3] Sur téléphone et tablette étroite, le Sommaire est sous le bouton** (et non à côté du titre comme à partir de 992 px) : il commence juste sous le premier écran.
+- **[P3] Traits de 1 px dans les blocs bleus** : sur certaines captures ils semblent plus pâles que le reste. Les couleurs mesurées sont bien celles de l'orange du logo ; la cause de cet effet visuel n'est pas vérifiée.
+
+## Non vérifié
+
+- Safari et Firefox, et un vrai téléphone (mesures faites avec Chrome qui simule la taille et le toucher).
+- Lecteur d'écran réel : seule la structure (repères, titres, noms accessibles) a été lue par programme. L'exergue est volontairement caché aux lecteurs d'écran (même phrase que le chapeau de la une).
+- Le comportement du site une fois en ligne chez Cloudflare (cookies, en-têtes).
+- Parcours complet à la touche Tab, élément par élément : j'ai fait un vrai appui sur Tab pour le premier élément, et vérifié les 16 autres en les focalisant par programme.

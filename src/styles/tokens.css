@@ -14,7 +14,7 @@
        orange      : trait dessiné à la main (de #D97B24 à #DD8D42), médiane de 14 742 pixels -> #DB8839
      --------------------------------------------------------------------------- */
   --marine: #162996; /* le bleu du logo : filets, liens, fond du pied de page */
-  --orange: #db8839; /* l'orange du logo : RARE, réservé aux petits traits décoratifs */
+  --orange: #db8839; /* l'orange du logo : le bouton, le prix, les filets et les gros chiffres sur bleu (jamais du petit texte) */
   --creme: #f8f4ec; /* le crème du logo : le papier */
 
   /* ---------------------------------------------------------------------------
@@ -25,6 +25,7 @@
   --orange-texte: #94500f; /* ORANGE FONCÉ pour écrire en orange (surtitres) : l'orange du logo est trop clair */
   --marine-doux: #3f4ea5; /* texte secondaire sur fond clair */
   --creme-doux: #cbcbdb; /* texte secondaire sur fond marine (pied de page) */
+  --orange-clair: #e5993f; /* ORANGE POUR LE PETIT TEXTE SUR FOND MARINE : l'orange du logo y fait 4,24:1 (trop juste) ; même teinte, un peu plus clair -> 5,00:1 */
 
   /* ---------------------------------------------------------------------------
      CONTRASTES CALCULÉS (formule WCAG 2.1, luminance relative)
@@ -38,17 +39,28 @@
        orange-texte  sur voile    5,01  OK
        marine-doux   sur crème    6,73  OK  texte secondaire (légendes, sources)
        marine-doux   sur voile    6,01  OK
-       crème         sur marine  10,68  OK  texte du pied de page
-       crème-doux    sur marine   7,31  OK  texte secondaire du pied de page
-       encre         sur orange   5,68  OK  texte du bouton quand le point orange le remplit (survol)
-       orange        sur crème    2,52  NON jamais pour du texte ni un contour utile ; petits traits décoratifs seulement
+       crème         sur marine  10,68  OK  texte de l'offre, des chiffres et du pied de page
+       crème-doux    sur marine   7,31  OK  texte secondaire sur fond marine
+       encre         sur orange   5,68  OK  TEXTE DU BOUTON (retenu : marine foncé, car le marine #162996 sur orange ne fait que 4,24)
+       crème         sur encre   14,32  OK  texte du bouton survolé (le point foncé remplit le bouton)
+       orange        sur marine   4,24  GROS TEXTE ET ÉLÉMENTS D'INTERFACE SEULEMENT (3:1 requis) : prix, grands chiffres, filets, bouton
+       orange-clair  sur marine   5,00  OK  PETIT TEXTE ORANGE SUR MARINE (retenu : #E5993F, l'orange du logo éclairci)
+       orange-clair  sur encre    6,70  OK
+       orange        sur encre    5,68  OK
+       orange        sur crème    2,52  NON jamais pour du texte ni un contour utile ; soulignement décoratif de mots-clés seulement
 
-     Deux usages de l'orange :
-       1. --orange        : décor (soulignement du bouton, trait sous un mot, filets courts). Jamais de texte.
-       2. --orange-texte  : tout texte orange sur fond clair.
+     Les orange, par usage :
+       1. --orange        : l'orange du logo, GROS ou décoratif. Bouton (fond), prix, grands chiffres sur marine, filets,
+                            soulignement épais des mots-clés des titres. Jamais du petit texte.
+       2. --orange-clair  : petit texte orange sur fond marine (surtitres, dates en gras de l'offre).
+       3. --orange-texte  : tout texte orange sur fond clair (crème ou voile).
+     Les trois niveaux d'importance : 1 = l'action et le prix (orange vif) ; 2 = l'offre et les chiffres (blocs marine) ;
+     3 = le texte courant (encre sur crème).
      --------------------------------------------------------------------------- */
   --texte: var(--encre);
   --doux: var(--marine-doux);
+  --accent-texte: var(--orange-texte); /* petit texte orange du bloc courant */
+  --accent-grand: var(--orange-texte); /* gros texte orange du bloc courant (sur marine : l'orange du logo) */
   --filet-couleur: var(--marine);
   --anneau: var(--marine);
 
@@ -96,6 +108,8 @@
   --filet-fin: 1px;
   --filet-moyen: 2px;
   --filet-epais: 6px;
+  --soulignement-epais: 0.11em; /* trait orange sous un mot-clé de titre (text-decoration-thickness) */
+  --soulignement-decalage: 0.14em; /* distance entre le mot et son trait (text-underline-offset) */
   --zone-tactile: 2.75rem; /* 44 px */
 
   /* Mouvement : une seule courbe de sortie, trois durées. Seuls survol et focus bougent. */
@@ -106,15 +120,17 @@
 
 /* ---------------------------------------------------------------------------
    THÈMES : chaque bloc choisit son fond ; texte, filets et anneau de focus suivent.
-   Le pied de page est le SEUL grand bloc bleu.
+   Les SEULS grands blocs marine : l'offre, les chiffres et le pied de page. Le reste alterne crème et voile.
    --------------------------------------------------------------------------- */
 .theme-creme {
   --fond: var(--creme);
   --texte: var(--encre);
   --doux: var(--marine-doux);
   --accent-texte: var(--orange-texte);
+  --accent-grand: var(--orange-texte);
   --filet-couleur: var(--marine);
   --anneau: var(--marine);
+  --bouton-bord: var(--encre);
 }
 
 .theme-voile {
@@ -122,17 +138,21 @@
   --texte: var(--encre);
   --doux: var(--marine-doux);
   --accent-texte: var(--orange-texte);
+  --accent-grand: var(--orange-texte);
   --filet-couleur: var(--marine);
   --anneau: var(--marine);
+  --bouton-bord: var(--encre);
 }
 
 .theme-marine {
   --fond: var(--marine);
   --texte: var(--creme);
   --doux: var(--creme-doux);
-  --accent-texte: var(--creme);
-  --filet-couleur: var(--creme);
+  --accent-texte: var(--orange-clair); /* 5,00:1 sur marine */
+  --accent-grand: var(--orange); /* 4,24:1 sur marine : gros texte seulement (3:1 requis) */
+  --filet-couleur: var(--orange); /* filets orange sur marine : 4,24:1 (éléments d'interface, 3:1 requis) */
   --anneau: var(--creme);
+  --bouton-bord: var(--orange);
 }
 
 .theme-creme,
